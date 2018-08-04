@@ -16,9 +16,9 @@ linker.symlinkModuleSrc("svjs-observe")
 linker.symlinkModuleSrc("svjs-audio")
 
 linker.symlinkModuleSrc("cm-chessboard")
-linker.symlinkModuleSrc("cm-bootstrap-modal")
 linker.symlinkModuleSrc("cm-chesstools")
 
 linker.symlinkModuleSrc("chess-console")
 
 linker.symlinkModuleSrc("bootstrap-show-modal", "bootstrap-show-modal.js")
+linker.symlinkModuleSrc("stockfish", "stockfish.js")
