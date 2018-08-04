@@ -21,4 +21,4 @@ linker.symlinkModuleSrc("cm-chesstools")
 linker.symlinkModuleSrc("chess-console")
 
 linker.symlinkModuleSrc("bootstrap-show-modal", "bootstrap-show-modal.js")
-linker.symlinkModuleSrc("stockfish", "stockfish.js")
+// linker.symlinkModuleSrc("stockfish", "stockfish.js")

@@ -16,13 +16,27 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
         this.engineWorker = null
         this.model = chessConsole.state
+        this.depth = null
+        this.scoreHistory = {}
+        this.score = null
+        this.i18n = chessConsole.i18n
+        this.i18n.load({
+            de: {
+                level: "Spielstufe"
+            },
+            en: {
+                level: "Level"
+            }
+        })
 
-        const $chessConsoleElement = $(chessConsole.element)
+        // const $chessConsoleElement = $(chessConsole.element)
 
-        // this.$playerBar = $playerBar;
-        this.$engineStatusView = $chessConsoleElement.find(".engine-status")
-        this.engineStatus = ENGINE_STATUS.LOADING
-        this.newGame()
+        // this.$engineStatusView = $chessConsoleElement.find(".engine-status")
+        // this.engineStatus = ENGINE_STATUS.LOADING
+
+        Observe.property(this, "depth", () => {
+            this.name = `Stockfish ${this.i18n.t("level")} ${this.depth}`
+        })
 
         // player bar
         // Observe.property(this, "name", this.redrawPlayerBar.bind(this));
@@ -35,9 +49,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }*/
         this.initWorker()
     }
-
-    newGame() {
-        this.depth = 1
+/*
+    newGame(depth = 1) {
+        this.depth = depth
         this.search = ""
         this.ponder = undefined
         this.score = undefined
@@ -45,7 +59,8 @@ export class StockfishPlayer extends ChessConsolePlayer {
         // this.name = "Stockfish " + _t.level + " " + this.depth
         // this.redraw()
     }
-
+*/
+/*
     redrawPlayerBar() {
         this.$playerBar.html(this.name + " " + _t.level + " " + (this.depth))
     }
@@ -60,7 +75,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }
         this.$engineStatusView.html(output)
     }
-
+*/
     uciCmd(cmd) {
         console.log("uciCmd", cmd)
         this.engineWorker.postMessage(cmd)
