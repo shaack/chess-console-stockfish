@@ -67,7 +67,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     listener(event) {
-        console.log("listener", event)
+        // console.log("listener", event)
         const line = event.data
         if (line === 'uciok') {
             this.engineStatus = ENGINE_STATUS.LOADED
@@ -124,7 +124,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     loadBook() {
-        // console.log("load book: " + this.engineConfig.book);
         const bookRequest = new XMLHttpRequest()
         bookRequest.open('GET', this.props.book, true)
         bookRequest.responseType = "arraybuffer"
