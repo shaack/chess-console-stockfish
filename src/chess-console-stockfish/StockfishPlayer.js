@@ -62,10 +62,12 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     uciCmd(cmd) {
+        console.log("uciCmd", cmd)
         this.engineWorker.postMessage(cmd)
     }
 
     listener(event) {
+        console.log("listener", event)
         const line = event.data
         if (line === 'uciok') {
             this.engineStatus = ENGINE_STATUS.LOADED
@@ -137,6 +139,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     moveRequest(fen, moveResponse) {
+        console.log("moveRequest", fen)
         this.engineStatus = ENGINE_STATUS.RUNNING
         this.moveResponse = moveResponse
         setTimeout(() => {
