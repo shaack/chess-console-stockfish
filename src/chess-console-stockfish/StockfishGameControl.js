@@ -4,8 +4,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessConsolePlayer} from "chess-console/src/chess-console/ChessConsolePlayer.js"
+import {GameControl} from "../../lib/chess-console/components/GameControl/GameControl.js"
 
-export class StockfishPlayer extends ChessConsolePlayer {
+export class StockfishGameControl extends GameControl {
 
 }

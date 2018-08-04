@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Chess Console</title>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
-    <link rel="stylesheet" href="../assets/style/screen.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="./assets/style/screen.css">
 
 </head>
 <body>
 <div class="container-fluid">
-    <h1><a href="../">ChessConsole</a> <small>Local vs Random</small></h1>
+    <h1>StockfishPlayer for ChessConsole</h1>
     <div id="console-container"></div>
 </div>
 <script src="./node_modules/jquery/dist/jquery.min.js"></script>
@@ -21,30 +21,36 @@
     import {App} from "./lib/svjs-app/App.js"
     import {ChessConsole} from "./lib/chess-console/ChessConsole.js"
     import {LocalPlayer} from "./lib/chess-console/players/LocalPlayer.js"
-    import {RandomPlayer} from "./lib/chess-console/players/RandomPlayer.js"
     import {Board} from "./lib/chess-console/components/Board/Board.js"
     import {History} from "./lib/chess-console/components/History.js"
     import {CapturedPieces} from "./lib/chess-console/components/CapturedPieces.js"
     import {HistoryControl} from "./lib/chess-console/components/HistoryControl.js"
-    import {GameControl} from "./lib/chess-console/components/GameControl/GameControl.js"
     import {Persistence} from "./lib/chess-console/components/Persistence.js"
     import {Sound} from "./lib/chess-console/components/Sound.js"
+
+    import {StockfishGameControl} from "./src/chess-console-stockfish/StockfishGameControl.js"
+    import {StockfishPlayer} from "./src/chess-console-stockfish/StockfishPlayer.js"
 
     const app = App.create()
     const chessConsole = app.addModule(ChessConsole,
         document.getElementById("console-container"), {
             assetsFolder: "./assets",
             player: {name: "Local Player", type: LocalPlayer},
-            opponent: {name: "Random Player", type: RandomPlayer}
+            opponent: {
+                name: "Stockfish", type: StockfishPlayer, props: {
+                    worker: "./lib/stockfish.js",
+                    book: "./assets/openings.bin"
+                }
+            }
         })
     chessConsole.addComponent(Board)
     chessConsole.addComponent(History)
     chessConsole.addComponent(HistoryControl)
     chessConsole.addComponent(CapturedPieces)
-    chessConsole.addComponent(GameControl)
+    chessConsole.addComponent(StockfishGameControl)
     chessConsole.addComponent(Sound)
     chessConsole.addComponent(Persistence)
-        .then((component) => component.load("random"))
+        .then((component) => component.load("sf"))
 
 </script>
 </body>
