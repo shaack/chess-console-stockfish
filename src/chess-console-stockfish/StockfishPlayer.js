@@ -8,7 +8,12 @@ import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/svjs-observe/Observe.js"
 import {MESSAGE} from "../../lib/chess-console/ChessConsole.js"
 
-export const ENGINE_STATUS = {LOADING: "LOADING", LOADED: "LOADED", READY: "READY", RUNNING: "RUNNING"};
+export const ENGINE_STATE = {
+    LOADING: 1,
+    LOADED: 2,
+    READY: 3,
+    THINKING: 4
+}
 
 export class StockfishPlayer extends ChessConsolePlayer {
 
@@ -32,55 +37,37 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         })
 
-        // const $chessConsoleElement = $(chessConsole.element)
-
-        // this.$engineStatusView = $chessConsoleElement.find(".engine-status")
-        // this.engineStatus = ENGINE_STATUS.LOADING
-
+        this.engineState = ENGINE_STATE.LOADING
         this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, (data) => {
-            console.log("game started", data)
-            this.depth = data.gameProps.engineLevel
+            if(data.gameProps.engineLevel) {
+                this.depth = data.gameProps.engineLevel
+            }
+        })
+        this.chessConsole.messageBroker.subscribe(MESSAGE.load, () => {
+            if(this.chessConsole.persistence.readValue("depth")) {
+                this.depth = parseInt(this.chessConsole.persistence.readValue("depth"), 10)
+            }
         })
 
-        // player bar
-        // Observe.property(this, "name", this.redrawPlayerBar.bind(this));
-        // Observe.property(this, "depth", this.redrawPlayerBar.bind(this));
-        // status
-        /* TODO:
-        if (this.$engineStatusView) {
-            Observe.property(this, "score", this.redrawStatus.bind(this))
-            Observe.property(this, "engineStatus", this.redrawStatus.bind(this))
-        }*/
+        Observe.property(this, "depth", () => {
+            this.chessConsole.persistence.saveValue("depth", this.depth)
+        })
+
         this.initWorker()
     }
 
-/*
-    newGame(depth = 1) {
-        this.depth = depth
-        this.search = ""
-        this.ponder = undefined
-        this.score = undefined
-        this.scoreHistory = {}
-        // this.name = "Stockfish " + _t.level + " " + this.depth
-        // this.redraw()
-    }
-*/
-/*
-    redrawPlayerBar() {
-        this.$playerBar.html(this.name + " " + _t.level + " " + (this.depth))
-    }
+    /*
+        newGame(depth = 1) {
+            this.depth = depth
+            this.search = ""
+            this.ponder = undefined
+            this.score = undefined
+            this.scoreHistory = {}
+            // this.name = "Stockfish " + _t.level + " " + this.depth
+            // this.redraw()
+        }
+    */
 
-    redrawStatus() {
-        let output = ""
-        if (this.score) {
-            output += _t.score + " " + this.score
-        }
-        if (this.engineStatus === ENGINE_STATUS.RUNNING) {
-            output += ' <i class="fa fa-spinner fa-pulse fa-fw"></i>'
-        }
-        this.$engineStatusView.html(output)
-    }
-*/
     uciCmd(cmd) {
         console.log("uciCmd", cmd)
         this.engineWorker.postMessage(cmd)
@@ -90,13 +77,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
         // console.log("listener", event)
         const line = event.data
         if (line === 'uciok') {
-            this.engineStatus = ENGINE_STATUS.LOADED
+            this.engineState = ENGINE_STATE.LOADED
         } else if (line === 'readyok') {
-            this.engineStatus = ENGINE_STATUS.READY
+            this.engineState = ENGINE_STATE.READY
         } else {
             let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])? ponder ([a-h][1-8])?([a-h][1-8])?/)
             if (match) {
-                this.engineStatus = ENGINE_STATUS.READY
+                this.engineState = ENGINE_STATE.READY
                 if (match[4] !== undefined) {
                     this.ponder = {from: match[4], to: match[5]}
                 } else {
@@ -107,7 +94,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
             } else {
                 match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)
                 if (match) {
-                    this.engineStatus = ENGINE_STATUS.RUNNING
+                    this.engineState = ENGINE_STATE.THINKING
                     this.search = 'Depth: ' + match[1] + ' Nps: ' + match[2]
                 }
             }
@@ -126,7 +113,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     initWorker() {
-        this.engineStatus = ENGINE_STATUS.LOADING
+        this.engineState = ENGINE_STATE.LOADING
         const listener = (event) => {
             this.listener(event)
         }
@@ -159,7 +146,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
     moveRequest(fen, moveResponse) {
         console.log("moveRequest", fen)
-        this.engineStatus = ENGINE_STATUS.RUNNING
+        this.engineState = ENGINE_STATE.THINKING
         this.moveResponse = moveResponse
         setTimeout(() => {
             if (!this.model.chess.game_over()) {
