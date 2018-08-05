@@ -30,6 +30,7 @@
 
     import {StockfishGameControl} from "./src/chess-console-stockfish/StockfishGameControl.js"
     import {StockfishPlayer} from "./src/chess-console-stockfish/StockfishPlayer.js"
+    import {StockfishStateView} from "./src/chess-console-stockfish/StockfishStateView.js"
 
     const app = App.create()
     const chessConsole = app.addModule(ChessConsole,
@@ -47,10 +48,14 @@
     chessConsole.addComponent(History)
     chessConsole.addComponent(HistoryControl)
     chessConsole.addComponent(CapturedPieces)
-    chessConsole.addComponent(StockfishGameControl)
+    chessConsole.addComponent(StockfishGameControl, {
+        player: chessConsole.opponent
+    })
+    chessConsole.addComponent(StockfishStateView, {
+        player: chessConsole.opponent
+    })
     chessConsole.addComponent(Sound)
-    chessConsole.addComponent(Persistence)
-        .then((component) => component.load("sf"))
+    chessConsole.addComponent(Persistence).then((component) => component.load("sf"))
 
 </script>
 </body>
