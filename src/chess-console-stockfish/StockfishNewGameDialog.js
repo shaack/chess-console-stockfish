@@ -48,11 +48,10 @@ export class StockfishNewGameDialog {
                     event.preventDefault()
                     const $form = $(modal.element).find("form")
                     let color = $form.find("#color").val()
-                    const level = $form.find("#level").val() || 1
+                    const level = parseInt($form.find("#level").val(), 10) || 1
                     if (color !== COLOR.white && color !== COLOR.black) {
                         color = (module.state.playerColor === COLOR.white) ? COLOR.black : COLOR.white
                     }
-                    console.log(color, level)
                     modal.hide()
                     module.startGame({playerColor: color, engineLevel: level})
                 })
