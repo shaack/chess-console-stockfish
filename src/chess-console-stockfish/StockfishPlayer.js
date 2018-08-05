@@ -43,14 +43,30 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.depth = data.gameProps.engineLevel
             }
         })
+        //const persistence = this.chessConsole.persistence
         this.chessConsole.messageBroker.subscribe(MESSAGE.load, () => {
             if(this.chessConsole.persistence.readValue("depth")) {
                 this.depth = parseInt(this.chessConsole.persistence.readValue("depth"), 10)
             }
+            if(this.chessConsole.persistence.readValue("scoreHistory")) {
+                this.scoreHistory = this.chessConsole.persistence.readValue("scoreHistory")
+                let score = this.scoreHistory[this.chessConsole.state.plyViewed]
+                if (!score && this.chessConsole.state.plyViewed > 0) {
+                    score = this.scoreHistory[this.chessConsole.state.plyViewed - 1]
+                }
+                this.score = score
+            }
         })
-
+        this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, () => {
+            this.scoreHistory = {}
+            this.score = null
+        })
         Observe.property(this, "depth", () => {
             this.chessConsole.persistence.saveValue("depth", this.depth)
+        })
+        Observe.property(this, "score", () => {
+            this.chessConsole.persistence.saveValue("score", this.score)
+            this.chessConsole.persistence.saveValue("scoreHistory", this.scoreHistory)
         })
 
         this.initWorker()
@@ -69,7 +85,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
     */
 
     uciCmd(cmd) {
-        console.log("uciCmd", cmd)
         this.engineWorker.postMessage(cmd)
     }
 
@@ -101,13 +116,14 @@ export class StockfishPlayer extends ChessConsolePlayer {
             match = line.match(/^info .*\bscore (\w+) (-?\d+)/)
             if (match) {
                 const score = parseInt(match[2], 10) * (this.chessConsole.playerWhite() === this ? 1 : -1)
+                let tmpScore
                 if (match[1] === 'cp') {
-                    this.score = (score / 100.0).toFixed(2)
+                    tmpScore = (score / 100.0).toFixed(1)
                 } else if (match[1] === 'mate') {
-                    this.score = '#' + Math.abs(score)
+                    tmpScore = '#' + Math.abs(score)
                 }
-                const ply = this.model.ply
-                this.scoreHistory[ply] = this.score
+                this.scoreHistory[this.model.plyCount] = tmpScore
+                this.score = tmpScore
             }
         }
     }
@@ -145,7 +161,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     moveRequest(fen, moveResponse) {
-        console.log("moveRequest", fen)
         this.engineState = ENGINE_STATE.THINKING
         this.moveResponse = moveResponse
         setTimeout(() => {
