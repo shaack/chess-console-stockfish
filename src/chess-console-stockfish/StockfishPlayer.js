@@ -16,13 +16,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
         this.engineWorker = null
         this.model = chessConsole.state
-        this.depth = null
+        this.depth = 1
         this.scoreHistory = {}
         this.score = null
         this.i18n = chessConsole.i18n
         this.i18n.load({
             de: {
-                level: "Spielstufe"
+                level: "Stufe"
             },
             en: {
                 level: "Level"
@@ -35,8 +35,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
         // this.engineStatus = ENGINE_STATUS.LOADING
 
         Observe.property(this, "depth", () => {
-            this.name = `Stockfish ${this.i18n.t("level")} ${this.depth}`
+            this.updateName()
         })
+        this.updateName()
 
         // player bar
         // Observe.property(this, "name", this.redrawPlayerBar.bind(this));
@@ -48,6 +49,10 @@ export class StockfishPlayer extends ChessConsolePlayer {
             Observe.property(this, "engineStatus", this.redrawStatus.bind(this))
         }*/
         this.initWorker()
+    }
+
+    updateName() {
+        this.name = `Stockfish ${this.i18n.t("level")} ${this.depth}`
     }
 /*
     newGame(depth = 1) {
