@@ -6,6 +6,7 @@
 
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/svjs-observe/Observe.js"
+import {MESSAGE} from "../../lib/chess-console/ChessConsole.js"
 
 export const ENGINE_STATUS = {LOADING: "LOADING", LOADED: "LOADED", READY: "READY", RUNNING: "RUNNING"};
 
@@ -22,9 +23,11 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.i18n = chessConsole.i18n
         this.i18n.load({
             de: {
+                score: "Bewertung",
                 level: "Stufe"
             },
             en: {
+                score: "score",
                 level: "level"
             }
         })
@@ -34,10 +37,10 @@ export class StockfishPlayer extends ChessConsolePlayer {
         // this.$engineStatusView = $chessConsoleElement.find(".engine-status")
         // this.engineStatus = ENGINE_STATUS.LOADING
 
-        Observe.property(this, "depth", () => {
-            this.updateName()
+        this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, (data) => {
+            console.log("game started", data)
+            this.depth = data.gameProps.engineLevel
         })
-        this.updateName()
 
         // player bar
         // Observe.property(this, "name", this.redrawPlayerBar.bind(this));
@@ -51,9 +54,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.initWorker()
     }
 
-    updateName() {
-        this.name = `Stockfish ${this.i18n.t("level")} ${this.depth}`
-    }
 /*
     newGame(depth = 1) {
         this.depth = depth

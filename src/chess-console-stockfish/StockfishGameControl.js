@@ -9,8 +9,10 @@ import {StockfishNewGameDialog} from "./StockfishNewGameDialog.js"
 
 export class StockfishGameControl extends GameControl {
     showNewGameDialog() {
+        console.log("player", this.props.player)
         new StockfishNewGameDialog(this.module, {
-            title: this.module.i18n.t('start_game')
+            title: this.module.i18n.t('start_game'),
+            player: this.props.player
         })
     }
 }

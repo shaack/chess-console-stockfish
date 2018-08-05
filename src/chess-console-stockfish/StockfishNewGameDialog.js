@@ -10,6 +10,7 @@ export class StockfishNewGameDialog {
 
     constructor(module, props) {
         this.module = module
+        this.props = props
         const i18n = module.i18n
         i18n.load({
             de: {
@@ -51,6 +52,7 @@ export class StockfishNewGameDialog {
                     if (color !== COLOR.white && color !== COLOR.black) {
                         color = (module.state.playerColor === COLOR.white) ? COLOR.black : COLOR.white
                     }
+                    console.log(color, level)
                     modal.hide()
                     module.startGame({playerColor: color, engineLevel: level})
                 })
@@ -61,7 +63,7 @@ export class StockfishNewGameDialog {
 
     renderLevelOptions() {
         let html = ''
-        const currentLevel = this.module.opponent.depth
+        const currentLevel = this.props.player.depth
         for (var i = 1; i <= 15; i++) {
             var selected = ''
             if (currentLevel === i) {
