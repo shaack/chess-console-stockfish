@@ -1,5 +1,10 @@
 # chess-console-stockfish
-A Stockfish engine player for ChessConsole. Play the popular Stockfish engine on ChessConsole.
+A Stockfish engine player for [chess-console](https://github.com/shaack/chess-console).
+This is a full functional chess computer written in vanilla ES6.
+
+## See it in action
+
+[Demo page](https://shaack.com/projekte/chess-console-stockfish/)
 
 ## Installation
 
