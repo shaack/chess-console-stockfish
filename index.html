@@ -59,13 +59,15 @@
     const chessConsole = app.addModule(ChessConsole,
         document.getElementById("console-container"), {
             assetsFolder: "./assets",
-            // player: {name: i18n.t("playerName"), type: LocalPlayer},
+            player: {name: i18n.t("playerName"), type: LocalPlayer},
+            /*
             player: {
                 name: "Stockfish", type: StockfishPlayer, props: {
                     worker: "./ext/stockfish.js",
                     book: "./assets/openings.bin"
                 }
             },
+            */
             opponent: {
                 name: "Stockfish", type: StockfishPlayer, props: {
                     worker: "./ext/stockfish.js",
@@ -83,9 +85,11 @@
     chessConsole.addComponent(StockfishStateView, {
         player: chessConsole.opponent
     })
+    /*
     chessConsole.addComponent(StockfishStateView, {
         player: chessConsole.player
     })
+    */
     chessConsole.addComponent(GameStateOutput)
     chessConsole.addComponent(Sound)
     chessConsole.addComponent(Persistence).then((component) => component.load("sf"))
