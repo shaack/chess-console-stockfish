@@ -22,7 +22,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
         this.engineWorker = null
         this.model = chessConsole.state
-        this.depth = 1
+        this.level = 1
         this.scoreHistory = {}
         this.score = null
         this.i18n = chessConsole.i18n
@@ -40,13 +40,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.engineState = ENGINE_STATE.LOADING
         this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, (data) => {
             if(data.gameProps.engineLevel) {
-                this.depth = data.gameProps.engineLevel
+                this.level = data.gameProps.engineLevel
             }
         })
         //const persistence = this.chessConsole.persistence
         this.chessConsole.messageBroker.subscribe(MESSAGE.load, () => {
-            if(this.chessConsole.persistence.readValue("depth")) {
-                this.depth = parseInt(this.chessConsole.persistence.readValue("depth"), 10)
+            if(this.chessConsole.persistence.readValue("level")) {
+                this.level = parseInt(this.chessConsole.persistence.readValue("level"), 10)
             }
             if(this.chessConsole.persistence.readValue("scoreHistory")) {
                 this.scoreHistory = this.chessConsole.persistence.readValue("scoreHistory")
@@ -61,8 +61,8 @@ export class StockfishPlayer extends ChessConsolePlayer {
             this.scoreHistory = {}
             this.score = null
         })
-        Observe.property(this, "depth", () => {
-            this.chessConsole.persistence.saveValue("depth", this.depth)
+        Observe.property(this, "level", () => {
+            this.chessConsole.persistence.saveValue("level", this.level)
         })
         Observe.property(this, "score", () => {
             this.chessConsole.persistence.saveValue("score", this.score)
@@ -166,7 +166,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         setTimeout(() => {
             if (!this.model.chess.game_over()) {
                 this.uciCmd('position fen ' + this.model.chess.fen())
-                this.uciCmd('go depth ' + this.depth)
+                this.uciCmd('go depth ' + (this.level - 1))
             }
         }, 500)
     }

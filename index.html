@@ -14,10 +14,10 @@
     <div id="console-container" class="mb-3"></div>
     <h3>Repositories and further information</h3>
     <ul>
-        <li><a href="https://github.com/nmrugg/stockfish.js">stockfish.js</a></li>
         <li><a href="https://github.com/shaack/chess-console-stockfish">chess-console-stockfish, the Stockfish player for chess-console</a></li>
-        <li><a href="https://github.com/shaack/chess-console">chess-console, the whole framework for playing chess</a></li>
-        <li><a href="https://github.com/shaack/cm-chessboard">cm-chessboard, the SVG rendered board</a></li>
+        <li><a href="https://github.com/shaack/chess-console">chess-console, this whole framework for playing chess in a website</a></li>
+        <li><a href="https://github.com/shaack/cm-chessboard">cm-chessboard, the SVG rendered board used in chess-console</a></li>
+        <li><a href="https://github.com/nmrugg/stockfish.js">stockfish.js, the chess computer engine in JavaScript</a></li>
     </ul>
     <p>
         copyright &copy; 2018 by <a href="https://shaack.com">shaack.com</a> engineering.<br/>
@@ -34,6 +34,7 @@
     import {ChessConsole} from "./lib/chess-console/ChessConsole.js"
     import {LocalPlayer} from "./lib/chess-console/players/LocalPlayer.js"
     import {Board} from "./lib/chess-console/components/Board/Board.js"
+    import {GameStateOutput} from "./lib/chess-console/components/GameStateOutput.js"
     import {History} from "./lib/chess-console/components/History.js"
     import {CapturedPieces} from "./lib/chess-console/components/CapturedPieces.js"
     import {HistoryControl} from "./lib/chess-console/components/HistoryControl.js"
@@ -43,12 +44,28 @@
     import {StockfishGameControl} from "./src/chess-console-stockfish/StockfishGameControl.js"
     import {StockfishPlayer} from "./src/chess-console-stockfish/StockfishPlayer.js"
     import {StockfishStateView} from "./src/chess-console-stockfish/StockfishStateView.js"
+    import {I18n} from "./lib/svjs-i18n/I18n.js"
 
     const app = App.create()
+    const i18n = new I18n()
+    i18n.load({
+        de: {
+            playerName: "Spieler"
+        },
+        en: {
+            playerName: "Player"
+        }
+    })
     const chessConsole = app.addModule(ChessConsole,
         document.getElementById("console-container"), {
             assetsFolder: "./assets",
-            player: {name: "Local Player", type: LocalPlayer},
+            // player: {name: i18n.t("playerName"), type: LocalPlayer},
+            player: {
+                name: "Stockfish", type: StockfishPlayer, props: {
+                    worker: "./ext/stockfish.js",
+                    book: "./assets/openings.bin"
+                }
+            },
             opponent: {
                 name: "Stockfish", type: StockfishPlayer, props: {
                     worker: "./ext/stockfish.js",
@@ -66,6 +83,10 @@
     chessConsole.addComponent(StockfishStateView, {
         player: chessConsole.opponent
     })
+    chessConsole.addComponent(StockfishStateView, {
+        player: chessConsole.player
+    })
+    chessConsole.addComponent(GameStateOutput)
     chessConsole.addComponent(Sound)
     chessConsole.addComponent(Persistence).then((component) => component.load("sf"))
 

@@ -62,8 +62,8 @@ export class StockfishNewGameDialog {
 
     renderLevelOptions() {
         let html = ''
-        const currentLevel = this.props.player.depth
-        for (var i = 1; i <= 15; i++) {
+        const currentLevel = this.props.player.level
+        for (var i = 1; i <= 20; i++) {
             var selected = ''
             if (currentLevel === i) {
                 selected = 'selected '

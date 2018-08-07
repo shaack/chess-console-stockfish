@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/shaack/chess-console-stockfish#readme",
   "dependencies": {
-    "chess-console": "^1.1.17"
+    "chess-console": "^1.1.26"
   },
   "devDependencies": {
     "web-module-linker": "^1.0.5"
