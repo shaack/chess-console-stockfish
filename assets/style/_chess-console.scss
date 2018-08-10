@@ -1,7 +1,22 @@
 @import "../../node_modules/bootstrap/scss/variables";
 
+.flex-buttons {
+  float: left;
+  .text {
+    float: left;
+    padding: 4px 3px;
+  }
+  button {
+    float: left;
+    margin-right: $spacer-small;
+    margin-bottom: $spacer-small;
+    background-color: transparent;
+  }
+  margin-bottom: $spacer-small;
+}
+
 .chess-console {
-  .chess-console-controls, .chess-console-status {
+  .chess-console-right, .chess-console-left {
     margin-top: 20px;
   }
   .chess-console-board {
@@ -60,25 +75,39 @@
       }
       .game-control {
         .btn {
-          background-color: rgba(0, 0, 0, 0.04);
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+    .game-status {
+      font-weight: bold;
+      margin-bottom: $spacer;
+    }
+    .last-error {
+      color: $danger;
+      margin-bottom: $spacer;
+    }
+    .move-input {
+      margin-bottom: $spacer;
+      .first-move {
+        color: $gray-800;
+        font-size: 280%;
+        width: 100%;
+        overflow: hidden;
+      }
+      .conditional-moves {
+        margin-bottom: $spacer-small;
+      }
+      .move-input-controls {
+        width: 100%;
+        button {
+          float: left;
+          margin-right: $spacer-small;
+          margin-bottom: $spacer-small;
         }
       }
     }
   }
-}
-
-.flex-buttons {
-  float: left;
-  .text {
-    float: left;
-    padding: 4px 3px;
-  }
-  button {
-    float: left;
-    margin-right: $spacer-small;
-    margin-bottom: $spacer-small;
-  }
-  margin-bottom: $spacer-small;
 }
 
 .modal svg.piece {
