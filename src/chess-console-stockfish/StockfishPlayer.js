@@ -15,6 +15,19 @@ export const ENGINE_STATE = {
     THINKING: 4
 }
 
+const LEVEL_DEPTH = {
+    1: 0,
+    2: 1,
+    3: 2,
+    4: 3,
+    5: 4,
+    6: 5,
+    7: 7,
+    8: 10,
+    9: 14,
+    10: 18
+}
+
 export class StockfishPlayer extends ChessConsolePlayer {
 
     constructor(name, chessConsole, props) {
@@ -22,7 +35,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
         this.engineWorker = null
         this.model = chessConsole.state
-        this.level = 1
+        this.level = props.level ? props.level : 1
         this.scoreHistory = {}
         this.score = null
         this.i18n = chessConsole.i18n
@@ -45,11 +58,11 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
         //const persistence = this.chessConsole.persistence
         this.chessConsole.messageBroker.subscribe(MESSAGE.load, () => {
-            if(this.chessConsole.persistence.readValue("level")) {
-                this.level = parseInt(this.chessConsole.persistence.readValue("level"), 10)
+            if(this.chessConsole.persistence.loadValue("level")) {
+                this.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
             }
-            if(this.chessConsole.persistence.readValue("scoreHistory")) {
-                this.scoreHistory = this.chessConsole.persistence.readValue("scoreHistory")
+            if(this.chessConsole.persistence.loadValue("scoreHistory")) {
+                this.scoreHistory = this.chessConsole.persistence.loadValue("scoreHistory")
                 let score = this.scoreHistory[this.chessConsole.state.plyViewed]
                 if (!score && this.chessConsole.state.plyViewed > 0) {
                     score = this.scoreHistory[this.chessConsole.state.plyViewed - 1]
@@ -166,7 +179,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         setTimeout(() => {
             if (!this.model.chess.game_over()) {
                 this.uciCmd('position fen ' + this.model.chess.fen())
-                this.uciCmd('go depth ' + (this.level - 1))
+                this.uciCmd('go depth ' + (LEVEL_DEPTH[this.level]))
             }
         }, 500)
     }
