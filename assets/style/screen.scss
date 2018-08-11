@@ -2,7 +2,7 @@
 $spacer-small: $spacer / 2;
 
 @import "chess-console";
-@import "_cm-chessboard.scss";
+@import "cm-chessboard";
 
 html {
   body {
