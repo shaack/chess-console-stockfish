@@ -1,6 +1,6 @@
 {
   "name": "chess-console-stockfish",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "StockfishPlayer for ChessConsole",
   "main": "src/chess-console-stockfish/StockfishPlayer.js",
   "scripts": {
