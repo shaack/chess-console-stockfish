@@ -79,7 +79,10 @@
                 }
             }
         })
-    chessConsole.addComponent(Board)
+    chessConsole.addComponent(Board).then(() => {
+        chessConsole.addComponent(Persistence)
+            .then((component) => component.load("sf"))
+    })
     chessConsole.addComponent(History)
     chessConsole.addComponent(HistoryControl)
     chessConsole.addComponent(CapturedPieces)
@@ -96,7 +99,6 @@
     */
     chessConsole.addComponent(GameStateOutput)
     chessConsole.addComponent(Sound)
-    chessConsole.addComponent(Persistence).then((component) => component.load("sf"))
 
 </script>
 </body>
