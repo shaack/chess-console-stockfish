@@ -12,6 +12,10 @@ export class StockfishStateView extends Component {
     constructor(module, props) {
         super(module, props)
         const i18n = module.i18n
+        this.numberFormat = new Intl.NumberFormat(i18n.locale, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
+        })
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
         this.module.componentContainers.output.appendChild(this.element)
@@ -31,7 +35,13 @@ export class StockfishStateView extends Component {
         })
         Observe.property(props.player, "score", () => {
             if(props.player.score) {
-                this.scoreElement.innerHTML = `${i18n.t("score")} ${props.player.score}`
+                let scoreFormatted
+                if(props.player.score.indexOf("#") !== -1) {
+                    scoreFormatted = props.player.score
+                } else {
+                    scoreFormatted = this.numberFormat.format(props.player.score)
+                }
+                this.scoreElement.innerHTML = `${i18n.t("score")} ${scoreFormatted}`
             } else {
                 this.scoreElement.innerHTML = ''
             }
@@ -42,7 +52,13 @@ export class StockfishStateView extends Component {
                 score = props.player.scoreHistory[this.module.state.plyViewed - 1]
             }
             if (score) {
-                this.scoreElement.innerHTML = `${i18n.t("score")} ${score}`
+                let scoreFormatted
+                if(score.indexOf("#") !== -1) {
+                    scoreFormatted = score
+                } else {
+                    scoreFormatted = this.numberFormat.format(score)
+                }
+                this.scoreElement.innerHTML = `${i18n.t("score")} ${scoreFormatted}`
             } else {
                 this.scoreElement.innerHTML = ''
             }
