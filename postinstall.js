@@ -3,22 +3,22 @@
  * License: MIT, see file 'LICENSE'
  */
 
-const WebModuleLinker = require("web-module-linker")
+const WebModuleCurator = require("web-module-curator")
 
-const linker = new WebModuleLinker(__dirname)
+const curator = new WebModuleCurator(__dirname)
 
-linker.symlinkModuleSrc("svjs-app")
-linker.symlinkModuleSrc("svjs-utils")
-linker.symlinkModuleSrc("svjs-i18n")
-linker.symlinkModuleSrc("svjs-message-broker")
-linker.symlinkModuleSrc("svjs-svg")
-linker.symlinkModuleSrc("svjs-observe")
-linker.symlinkModuleSrc("svjs-audio")
+curator.addModule("svjs-app")
+curator.addModule("svjs-utils")
+curator.addModule("svjs-i18n")
+curator.addModule("svjs-message-broker")
+curator.addModule("svjs-svg")
+curator.addModule("svjs-observe")
+curator.addModule("svjs-audio")
 
-linker.symlinkModuleSrc("cm-chessboard")
-linker.symlinkModuleSrc("cm-chesstools")
+curator.addModule("cm-chessboard")
+curator.addModule("cm-chesstools")
 
-linker.symlinkModuleSrc("chess-console")
+curator.addModule("chess-console")
 
-linker.symlinkModuleSrc("bootstrap-show-modal", "bootstrap-show-modal.js")
-// linker.symlinkModuleSrc("stockfish", "stockfish.js")
+curator.addModule("bootstrap-show-modal", "src", "bootstrap-show-modal.js")
+
