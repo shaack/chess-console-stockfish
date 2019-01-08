@@ -28,7 +28,7 @@ export class StockfishNewGameDialog {
         }).then(() => {
             const newGameColor = module.persistence.loadValue("newGameColor")
             props.modalClass = "fade"
-            props.body = `<div class="form-group row">
+            props.body = `<div class="form"><div class="form-group row">
                         <div class="col-3"><label for="color" class="col-form-label">${i18n.t("color")}</label></div>
                         <div class="col-9"><select id="color" class="form-control">
                         <option value="auto">${i18n.t("auto")}</option>
@@ -41,13 +41,13 @@ export class StockfishNewGameDialog {
                         <div class="col-9"><select id="level" class="form-control">
                         ${this.renderLevelOptions()}
                         </select></div>
-                        </div>`
+                        </div></div>`
             props.footer = `<button type="button" class="btn btn-link" data-dismiss="modal">${i18n.t("cancel")}</button>
             <button type="submit" class="btn btn-primary">${i18n.t("ok")}</button>`
             props.onCreate = (modal) => {
-                $(modal.element).on("submit", "form", function (event) {
+                $(modal.element).on("click", "button[type='submit']", function (event) {
                     event.preventDefault()
-                    const $form = $(modal.element).find("form")
+                    const $form = $(modal.element).find(".form")
                     let color = $form.find("#color").val()
                     module.persistence.saveValue("newGameColor", color)
                     const level = parseInt($form.find("#level").val(), 10) || 1
