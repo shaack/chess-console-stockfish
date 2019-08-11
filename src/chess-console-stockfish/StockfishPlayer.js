@@ -5,7 +5,7 @@
  */
 
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
-import {Observe} from "../../lib/svjs-observe/Observe.js"
+import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {MESSAGE} from "../../lib/chess-console/ChessConsole.js"
 
 export const ENGINE_STATE = {

@@ -9,7 +9,7 @@ import {COLOR} from "../../lib/cm-chesstools/ChessTools.js"
 export class StockfishNewGameDialog {
 
     constructor(module, props) {
-        this.module = module
+        this.app = module
         this.props = props
         const i18n = module.i18n
         i18n.load({

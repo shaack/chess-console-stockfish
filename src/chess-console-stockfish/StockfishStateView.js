@@ -3,8 +3,8 @@
  * Repository: https://github.com/shaack/chess-console-stockfish
  * License: MIT, see file 'LICENSE'
  */
-import {Component} from "../../lib/svjs-app/Component.js"
-import {Observe} from "../../lib/svjs-observe/Observe.js"
+import {Component} from "../../lib/cm-web-modules/app/Component.js"
+import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {ENGINE_STATE} from "./StockfishPlayer.js"
 
 export class StockfishStateView extends Component {
@@ -18,7 +18,7 @@ export class StockfishStateView extends Component {
         })
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
-        this.module.componentContainers.output.appendChild(this.element)
+        this.app.componentContainers.output.appendChild(this.element)
         this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-spinner fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
@@ -46,10 +46,10 @@ export class StockfishStateView extends Component {
                 this.scoreElement.innerHTML = ''
             }
         })
-        Observe.property(this.module.state, "plyViewed", () => {
-            let score = props.player.scoreHistory[this.module.state.plyViewed]
-            if (!score && this.module.state.plyViewed > 0) {
-                score = props.player.scoreHistory[this.module.state.plyViewed - 1]
+        Observe.property(this.app.state, "plyViewed", () => {
+            let score = props.player.scoreHistory[this.app.state.plyViewed]
+            if (!score && this.app.state.plyViewed > 0) {
+                score = props.player.scoreHistory[this.app.state.plyViewed - 1]
             }
             if (score) {
                 let scoreFormatted
@@ -67,6 +67,6 @@ export class StockfishStateView extends Component {
     }
 
     updatePlayerName() {
-        this.props.player.name = `Stockfish ${this.module.i18n.t("level")} ${this.props.player.level}`
+        this.props.player.name = `Stockfish ${this.app.i18n.t("level")} ${this.props.player.level}`
     }
 }
