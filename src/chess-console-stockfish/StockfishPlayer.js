@@ -30,8 +30,8 @@ const LEVEL_DEPTH = {
 
 export class StockfishPlayer extends ChessConsolePlayer {
 
-    constructor(name, chessConsole, props) {
-        super(name, chessConsole, props)
+    constructor(chessConsole, name, props) {
+        super(chessConsole, name, props)
 
         this.engineWorker = null
         this.model = chessConsole.state
@@ -51,9 +51,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
 
         this.engineState = ENGINE_STATE.LOADING
-        this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, (data) => {
-            if(data.gameProps.engineLevel) {
-                this.level = data.gameProps.engineLevel
+        this.chessConsole.messageBroker.subscribe(MESSAGE.newGame, (data) => {
+            if(data.props.engineLevel) {
+                this.level = data.props.engineLevel
             }
         })
         //const persistence = this.chessConsole.persistence
@@ -70,7 +70,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.score = score
             }
         })
-        this.chessConsole.messageBroker.subscribe(MESSAGE.gameStarted, () => {
+        this.chessConsole.messageBroker.subscribe(MESSAGE.newGame, () => {
             this.scoreHistory = {}
             this.score = null
         })

@@ -52,10 +52,10 @@ export class StockfishNewGameDialog {
                     module.persistence.saveValue("newGameColor", color)
                     const level = parseInt($form.find("#level").val(), 10) || 1
                     if (color !== COLOR.white && color !== COLOR.black) {
-                        color = (module.state.playerColor === COLOR.white) ? COLOR.black : COLOR.white
+                        color = (module.props.playerColor === COLOR.white) ? COLOR.black : COLOR.white
                     }
                     modal.hide()
-                    module.startGame({playerColor: color, engineLevel: level})
+                    module.newGame({playerColor: color, engineLevel: level})
                 })
             }
             $.showModal(props)
