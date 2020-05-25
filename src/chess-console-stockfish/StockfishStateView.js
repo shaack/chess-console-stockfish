@@ -18,7 +18,7 @@ export class StockfishStateView extends Component {
         })
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
-        this.app.componentContainers.notifications.appendChild(this.element)
+        this.app.componentContainers.right.append(this.element)
         this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-spinner fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
@@ -43,7 +43,7 @@ export class StockfishStateView extends Component {
                 }
                 this.scoreElement.innerHTML = `${i18n.t("score")} ${scoreFormatted}`
             } else {
-                this.scoreElement.innerHTML = ''
+                this.scoreElement.innerHTML = ``
             }
         })
         Observe.property(this.app.state, "plyViewed", () => {
