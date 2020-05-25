@@ -1,4 +1,5 @@
 # chess-console-stockfish
+
 A Stockfish engine player for [chess-console](https://github.com/shaack/chess-console).
 This is a full functional chess computer written in vanilla ES6.
 
