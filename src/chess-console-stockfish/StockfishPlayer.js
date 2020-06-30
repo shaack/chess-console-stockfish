@@ -177,7 +177,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.engineState = ENGINE_STATE.THINKING
         this.moveResponse = moveResponse
         setTimeout(() => {
-            if (!this.model.chess.game_over()) {
+            if (!this.model.chess.gameOver()) {
                 this.uciCmd('position fen ' + this.model.chess.fen())
                 this.uciCmd('go depth ' + (LEVEL_DEPTH[this.level]))
             }
