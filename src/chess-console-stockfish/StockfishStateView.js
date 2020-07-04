@@ -9,9 +9,12 @@ import {ENGINE_STATE} from "./StockfishPlayer.js"
 
 export class StockfishStateView extends Component {
 
-    constructor(module, props) {
+    constructor(module, props = {}) {
         super(module, props)
         const i18n = module.i18n
+        if(!props.spinnerIcon) {
+            props.spinnerIcon = "spinner"
+        }
         this.numberFormat = new Intl.NumberFormat(i18n.locale, {
             minimumFractionDigits: 1,
             maximumFractionDigits: 1
@@ -19,7 +22,7 @@ export class StockfishStateView extends Component {
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
         this.app.componentContainers.right.append(this.element)
-        this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-spinner fa-spin"></i></span></div>`
+        this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-${props.spinnerIcon} fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
         this.thinkingElement.style.display = 'none'
