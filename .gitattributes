@@ -1,1 +1,3 @@
-/assets/style/screen.css linguist-generated=true
+# https://github.com/github/linguist#overrides
+assets/styles/screen.css linguist-generated
+index.html linguist-documentation
