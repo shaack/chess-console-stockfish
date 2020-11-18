@@ -178,7 +178,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.moveResponse = moveResponse
         const timeout = 1000    // https://www.reddit.com/r/ProgrammerHumor/comments/6xwely/from_the_apple_chess_engine_code/
                                 // https://opensource.apple.com/source/Chess/Chess-347/Sources/MBCEngine.mm.auto.html
-        console.log(timeout)
         setTimeout(() => {
             if (!this.model.chess.gameOver()) {
                 this.uciCmd('position fen ' + this.model.chess.fen())

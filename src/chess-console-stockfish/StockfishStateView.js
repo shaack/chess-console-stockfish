@@ -3,14 +3,14 @@
  * Repository: https://github.com/shaack/chess-console-stockfish
  * License: MIT, see file 'LICENSE'
  */
-import {Component} from "../../lib/cm-web-modules/app/Component.js"
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {ENGINE_STATE} from "./StockfishPlayer.js"
 
-export class StockfishStateView extends Component {
+export class StockfishStateView {
 
     constructor(module, props = {}) {
-        super(module, props)
+        this.app = module
+        this.props = props
         const i18n = module.i18n
         if(!props.spinnerIcon) {
             props.spinnerIcon = "spinner"
