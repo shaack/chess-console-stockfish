@@ -56,7 +56,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.level = data.props.engineLevel
             }
         })
-        //const persistence = this.chessConsole.persistence
         this.chessConsole.messageBroker.subscribe(messageBrokerTopics.load, () => {
             if(this.chessConsole.persistence.loadValue("level")) {
                 this.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)

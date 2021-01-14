@@ -15,6 +15,23 @@
 <div class="container-fluid">
     <h1>Stockfish for <a href="https://github.com/shaack/chess-console">chess-console</a></h1>
     <div id="console-container" class="mb-3"></div>
+    <form>
+        <div class="input-group mb-4">
+            <label for="fenInput" class="sr-only">FEN</label>
+            <div class="input-group-prepend">
+                <button id="fenButton" class="btn btn-outline-primary" type="button">Init with FEN</button>
+            </div>
+            <input id="fenInput" class="form-control" placeholder="FEN"
+                   value="4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"/>
+        </div>
+        <!--
+        <div class="form-group">
+            <label for="fen" class="sr-only">FEN input</label>
+            <input id="fen" name="fen" class="form-control" value="4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"/>
+        </div>
+        <button id="initWithFen" class="btn btn-outline-primary">Init with FEN</button>
+        -->
+    </form>
     <h3>Repositories and further information on GitHub</h3>
     <dl>
         <dt>the Stockfish player for chess-console</dt>
@@ -77,11 +94,12 @@
         },
         {
             soundSpriteFile: "./assets/sounds/chess_console_sounds.mp3",
-            chessboardSpriteFile: "./assets/images/chessboard-sprite.svg"
+            chessboardSpriteFile: "./assets/images/chessboard-sprite.svg",
+            savePrefix: "Stockfish"
         })
     chessConsole.addComponent(Board).then(() => {
         chessConsole.addComponent(Persistence)
-            .then((component) => component.load("sf"))
+            .then((component) => component.load())
     })
     chessConsole.addComponent(History)
     chessConsole.addComponent(HistoryControl)
@@ -92,13 +110,18 @@
     chessConsole.addComponent(StockfishStateView, {
         player: chessConsole.opponent
     })
-    /*
-    chessConsole.addComponent(StockfishStateView, {
-        player: chessConsole.player
-    })
-    */
     chessConsole.addComponent(GameStateOutput)
     chessConsole.addComponent(Sound)
+
+    document.getElementById("fenButton").addEventListener("click", () => {
+        const fen = document.getElementById("fenInput").value
+        const pgn = `[SetUp "1"]
+[FEN "${fen}"]`
+        console.log(pgn)
+        chessConsole.initGame({
+            pgn: pgn
+        })
+    })
 
 </script>
 </body>
