@@ -34,6 +34,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         super(chessConsole, name, props)
 
         this.engineWorker = null
+        this.props = props
         this.model = chessConsole.state
         this.level = props.level ? props.level : 1
         this.scoreHistory = {}
@@ -97,25 +98,33 @@ export class StockfishPlayer extends ChessConsolePlayer {
     */
 
     uciCmd(cmd) {
+        if(this.props.debug) {
+            console.log("uciCmd", cmd)
+        }
         this.engineWorker.postMessage(cmd)
     }
 
-    listener(event) {
-        // console.log("listener", event)
+    workerListener(event) {
+        if(this.props.debug) {
+            console.log("workerListener event", event)
+        }
         const line = event.data
         if (line === 'uciok') {
             this.engineState = ENGINE_STATE.LOADED
         } else if (line === 'readyok') {
             this.engineState = ENGINE_STATE.READY
         } else {
-            let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])? ponder ([a-h][1-8])?([a-h][1-8])?/)
+            let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/)
+            // let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])? ponder ([a-h][1-8])?([a-h][1-8])?/)
             if (match) {
                 this.engineState = ENGINE_STATE.READY
+                /*
                 if (match[4] !== undefined) {
                     this.ponder = {from: match[4], to: match[5]}
                 } else {
                     this.ponder = undefined
                 }
+                */
                 const move = {from: match[1], to: match[2], promotion: match[3]}
                 this.moveResponse(move)
             } else {
@@ -143,7 +152,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
     initWorker() {
         this.engineState = ENGINE_STATE.LOADING
         const listener = (event) => {
-            this.listener(event)
+            this.workerListener(event)
         }
         if (this.engineWorker !== null) {
             this.engineWorker.removeEventListener("message", listener)
@@ -173,13 +182,16 @@ export class StockfishPlayer extends ChessConsolePlayer {
     }
 
     moveRequest(fen, moveResponse) {
+        if(this.props.debug) {
+            console.log("moveRequest", fen)
+        }
         this.engineState = ENGINE_STATE.THINKING
         this.moveResponse = moveResponse
         const timeout = 1000    // https://www.reddit.com/r/ProgrammerHumor/comments/6xwely/from_the_apple_chess_engine_code/
                                 // https://opensource.apple.com/source/Chess/Chess-347/Sources/MBCEngine.mm.auto.html
         setTimeout(() => {
             if (!this.model.chess.gameOver()) {
-                this.uciCmd('position fen ' + this.model.chess.fen())
+                this.uciCmd('position fen ' + fen)
                 this.uciCmd('go depth ' + (LEVEL_DEPTH[this.level]))
             }
         }, timeout)

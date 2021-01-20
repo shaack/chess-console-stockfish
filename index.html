@@ -22,15 +22,8 @@
                 <button id="fenButton" class="btn btn-outline-primary" type="button">Init with FEN</button>
             </div>
             <input id="fenInput" class="form-control" placeholder="FEN"
-                   value="4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"/>
+                   value="ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"/>
         </div>
-        <!--
-        <div class="form-group">
-            <label for="fen" class="sr-only">FEN input</label>
-            <input id="fen" name="fen" class="form-control" value="4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"/>
-        </div>
-        <button id="initWithFen" class="btn btn-outline-primary">Init with FEN</button>
-        -->
     </form>
     <h3>Repositories and further information on GitHub</h3>
     <dl>
@@ -89,7 +82,8 @@
             name: "Stockfish", type: StockfishPlayer, props: {
                 worker: "./ext/stockfish.js",
                 book: "./assets/openings.bin",
-                level: 2
+                level: 2,
+                debug: true
             }
         },
         {
