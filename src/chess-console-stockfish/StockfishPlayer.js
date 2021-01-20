@@ -85,18 +85,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.initWorker()
     }
 
-    /*
-        newGame(depth = 1) {
-            this.depth = depth
-            this.search = ""
-            this.ponder = undefined
-            this.score = undefined
-            this.scoreHistory = {}
-            // this.name = "Stockfish " + _t.level + " " + this.depth
-            // this.redraw()
-        }
-    */
-
     uciCmd(cmd) {
         if(this.props.debug) {
             console.log("uciCmd", cmd)
