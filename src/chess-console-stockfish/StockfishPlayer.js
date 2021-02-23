@@ -25,7 +25,7 @@ const LEVEL_DEPTH = {
     7: 7,
     8: 10,
     9: 14,
-    10: 18
+    10: 17
 }
 
 export class StockfishPlayer extends ChessConsolePlayer {
