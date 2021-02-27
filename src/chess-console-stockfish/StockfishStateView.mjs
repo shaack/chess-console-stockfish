@@ -3,8 +3,8 @@
  * Repository: https://github.com/shaack/chess-console-stockfish
  * License: MIT, see file 'LICENSE'
  */
-import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {ENGINE_STATE} from "./StockfishPlayer.js"
+import {Observe} from "../../lib/cm-web-modules/observe/Observe.mjs"
+import {ENGINE_STATE} from "./StockfishPlayer.mjs"
 
 export class StockfishStateView {
 

@@ -10,6 +10,7 @@ manager.addProject("cm-web-modules")
 manager.addProject("cm-chessboard")
 manager.addProject("cm-pgn")
 manager.addProject("cm-chess")
+manager.addProject("chess.mjs")
 manager.addProject("chess-console")
 
 manager.addProject("bootstrap-show-modal", "src", "bootstrap-show-modal.js")

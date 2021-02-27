@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {COLOR} from "../../lib/cm-chess/Chess.js"
+import {COLOR} from "../../lib/cm-chess/Chess.mjs"
 
 export class StockfishNewGameDialog {
 

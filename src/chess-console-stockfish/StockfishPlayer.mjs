@@ -4,9 +4,9 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
-import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {messageBrokerTopics} from "../../lib/chess-console/ChessConsole.js"
+import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.mjs"
+import {Observe} from "../../lib/cm-web-modules/observe/Observe.mjs"
+import {messageBrokerTopics} from "../../lib/chess-console/ChessConsole.mjs"
 
 export const ENGINE_STATE = {
     LOADING: 1,
