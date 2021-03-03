@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {COLOR} from "../../lib/cm-chess/Chess.mjs"
+import {COLOR} from "../../lib/cm-chess/Chess.js"
 
 export class StockfishNewGameDialog {
 
@@ -65,8 +65,8 @@ export class StockfishNewGameDialog {
     renderLevelOptions() {
         let html = ''
         const currentLevel = this.props.player.level
-        for (var i = 1; i <= 10; i++) {
-            var selected = ''
+        for (let i = 1; i <= 10; i++) {
+            let selected = ''
             if (currentLevel === i) {
                 selected = 'selected '
             }

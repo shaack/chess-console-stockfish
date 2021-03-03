@@ -2,7 +2,7 @@
   "name": "chess-console-stockfish",
   "version": "1.7.0",
   "description": "StockfishPlayer for ChessConsole",
-  "main": "src/chess-console-stockfish/StockfishPlayer.mjs",
+  "main": "src/chess-console-stockfish/StockfishPlayer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node postinstall.js"
