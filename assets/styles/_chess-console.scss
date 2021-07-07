@@ -96,14 +96,14 @@
         overflow: hidden;
       }
       .conditional-moves {
-        margin-bottom: $spacer-small;
+        margin-bottom: $spacer / 2;
       }
       .move-input-controls {
         width: 100%;
         button {
           float: left;
-          margin-right: $spacer-small;
-          margin-bottom: $spacer-small;
+          margin-right: $spacer / 2;
+          margin-bottom: $spacer / 2;
         }
       }
     }

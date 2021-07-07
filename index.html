@@ -71,7 +71,7 @@
             playerName: "Player"
         }
     })
-    const chessConsole = new ChessConsole(
+    new ChessConsole(
         document.getElementById("console-container"),
         {name: i18n.t("playerName"), type: LocalPlayer},
         {
@@ -81,33 +81,37 @@
                 level: 2,
                 debug: true
             }
-        },
-        {
-            soundSpriteFile: "./assets/sounds/chess_console_sounds.mp3",
-            chessboardSpriteFile: "./assets/images/chessboard-sprite.svg",
-            savePrefix: "Stockfish"
+        }).initialization.then((chessConsole) => {
+        new Board(chessConsole, {
+            sprite: {
+                url: "./node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
+            }
+        }).initialization.then(() => {
+            new Persistence(chessConsole, {
+                savePrefix: "Stockfish"
+            }).initialization.then((component) => component.load())
         })
-    chessConsole.addComponent(Board).then(() => {
-        chessConsole.addComponent(Persistence)
-            .then((component) => component.load())
+        new History(chessConsole)
+        new HistoryControl(chessConsole)
+        new CapturedPieces(chessConsole)
+        new StockfishGameControl(chessConsole, {
+            player: chessConsole.opponent
+        })
+        new StockfishStateView(chessConsole, {
+            player: chessConsole.opponent
+        })
+        new GameStateOutput(chessConsole)
+        new Sound(chessConsole, {
+            soundSpriteFile: "./assets/sounds/chess_console_sounds.mp3"
+        })
     })
-    chessConsole.addComponent(History)
-    chessConsole.addComponent(HistoryControl)
-    chessConsole.addComponent(CapturedPieces)
-    chessConsole.addComponent(StockfishGameControl, {
-        player: chessConsole.opponent
-    })
-    chessConsole.addComponent(StockfishStateView, {
-        player: chessConsole.opponent
-    })
-    chessConsole.addComponent(GameStateOutput)
-    chessConsole.addComponent(Sound)
+
 
     document.getElementById("fenButton").addEventListener("click", () => {
         const fen = document.getElementById("fenInput").value
         const pgn = `[SetUp "1"]
 [FEN "${fen}"]`
-        chessConsole.initGame({
+        chessConsole.newGame({
             pgn: pgn
         })
     })

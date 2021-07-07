@@ -6,7 +6,7 @@
 
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {messageBrokerTopics} from "../../lib/chess-console/ChessConsole.js"
+import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
 
 export const ENGINE_STATE = {
     LOADING: 1,
@@ -52,12 +52,12 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
 
         this.engineState = ENGINE_STATE.LOADING
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.newGame, (data) => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, (data) => {
             if(data.props.engineLevel) {
                 this.level = data.props.engineLevel
             }
         })
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.load, () => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.load, () => {
             if(this.chessConsole.persistence.loadValue("level")) {
                 this.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
             }
@@ -70,7 +70,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.score = score
             }
         })
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.newGame, () => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
             this.scoreHistory = {}
             this.score = null
         })
