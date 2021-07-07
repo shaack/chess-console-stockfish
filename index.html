@@ -71,7 +71,8 @@
             playerName: "Player"
         }
     })
-    new ChessConsole(
+
+    const chessConsole = new ChessConsole(
         document.getElementById("console-container"),
         {name: i18n.t("playerName"), type: LocalPlayer},
         {
@@ -81,7 +82,9 @@
                 level: 2,
                 debug: true
             }
-        }).initialization.then((chessConsole) => {
+        })
+
+    chessConsole.initialization.then((chessConsole) => {
         new Board(chessConsole, {
             sprite: {
                 url: "./node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
@@ -106,11 +109,11 @@
         })
     })
 
-
     document.getElementById("fenButton").addEventListener("click", () => {
         const fen = document.getElementById("fenInput").value
         const pgn = `[SetUp "1"]
 [FEN "${fen}"]`
+        console.log(chessConsole)
         chessConsole.newGame({
             pgn: pgn
         })
