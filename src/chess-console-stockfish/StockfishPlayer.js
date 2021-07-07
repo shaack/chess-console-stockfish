@@ -52,10 +52,12 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
 
         this.engineState = ENGINE_STATE.LOADING
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, (data) => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
             if(data.props.engineLevel) {
                 this.level = data.props.engineLevel
             }
+            this.scoreHistory = {}
+            this.score = null
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.load, () => {
             if(this.chessConsole.persistence.loadValue("level")) {
@@ -69,10 +71,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 }
                 this.score = score
             }
-        })
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
-            this.scoreHistory = {}
-            this.score = null
         })
         Observe.property(this, "level", () => {
             this.chessConsole.persistence.saveValue("level", this.level)
@@ -161,7 +159,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         bookRequest.responseType = "arraybuffer"
         bookRequest.onload = (() => {
             if (bookRequest.status === 200) {
-                this.engineWorker.postMessage({book: bookRequest.response})
+                this.engineWorker.postMessage({book: bookRequest.response}) // don't know, if this really works
             } else {
                 console.error("engine book not loaded")
             }

@@ -82,14 +82,12 @@
                 level: 2,
                 debug: true
             }
+        }, {
+            figuresSpriteFile: "./node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
         })
 
     chessConsole.initialization.then((chessConsole) => {
-        new Board(chessConsole, {
-            sprite: {
-                url: "./node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
-            }
-        }).initialization.then(() => {
+        new Board(chessConsole).initialization.then(() => {
             new Persistence(chessConsole, {
                 savePrefix: "Stockfish"
             }).initialization.then((component) => component.load())
