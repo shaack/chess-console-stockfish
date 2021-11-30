@@ -34,7 +34,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         super(chessConsole, name, props)
         this.scoreHistory = {}
         this.engineWorker = undefined
-        this.level = undefined
+        this.level = 2
         this.score = undefined
         this.i18n = chessConsole.i18n
         this.i18n.load({
