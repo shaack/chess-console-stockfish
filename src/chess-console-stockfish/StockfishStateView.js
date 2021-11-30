@@ -3,15 +3,16 @@
  * Repository: https://github.com/shaack/chess-console-stockfish
  * License: MIT, see file 'LICENSE'
  */
+
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {ENGINE_STATE} from "./StockfishPlayer.js"
 
 export class StockfishStateView {
 
-    constructor(module, props = {}) {
-        this.app = module
+    constructor(chessConsole, props = {}) {
+        this.chessConsole = chessConsole
         this.props = props
-        const i18n = module.i18n
+        const i18n = chessConsole.i18n
         if(!props.spinnerIcon) {
             props.spinnerIcon = "spinner"
         }
@@ -21,7 +22,7 @@ export class StockfishStateView {
         })
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
-        this.app.componentContainers.right.append(this.element)
+        this.chessConsole.componentContainers.right.append(this.element)
         this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-${props.spinnerIcon} fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
@@ -49,10 +50,10 @@ export class StockfishStateView {
                 this.scoreElement.innerHTML = ``
             }
         })
-        Observe.property(this.app.state, "plyViewed", () => {
-            let score = props.player.scoreHistory[this.app.state.plyViewed]
-            if (!score && this.app.state.plyViewed > 0) {
-                score = props.player.scoreHistory[this.app.state.plyViewed - 1]
+        Observe.property(this.chessConsole.state, "plyViewed", () => {
+            let score = props.player.scoreHistory[this.chessConsole.state.plyViewed]
+            if (!score && this.chessConsole.state.plyViewed > 0) {
+                score = props.player.scoreHistory[this.chessConsole.state.plyViewed - 1]
             }
             if (score) {
                 let scoreFormatted
@@ -70,6 +71,6 @@ export class StockfishStateView {
     }
 
     updatePlayerName() {
-        this.props.player.name = `Stockfish ${this.app.i18n.t("level")} ${this.props.player.level}`
+        this.props.player.name = `Stockfish ${this.chessConsole.i18n.t("level")} ${this.props.player.level}`
     }
 }

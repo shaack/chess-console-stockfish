@@ -8,10 +8,10 @@ import {COLOR} from "../../lib/cm-chess/Chess.js"
 
 export class StockfishNewGameDialog {
 
-    constructor(module, props) {
-        this.app = module
+    constructor(chessConsole, props) {
+        this.chessConsole = chessConsole
         this.props = props
-        const i18n = module.i18n
+        const i18n = chessConsole.i18n
         i18n.load({
             de: {
                 color: "Farbe",
@@ -26,7 +26,7 @@ export class StockfishNewGameDialog {
                 auto: "automatically"
             }
         }).then(() => {
-            const newGameColor = module.persistence.loadValue("newGameColor")
+            const newGameColor = chessConsole.persistence.loadValue("newGameColor")
             props.modalClass = "fade"
             props.body = `<div class="form"><div class="form-group row">
                         <div class="col-3"><label for="color" class="col-form-label">${i18n.t("color")}</label></div>
@@ -49,13 +49,13 @@ export class StockfishNewGameDialog {
                     event.preventDefault()
                     const $form = $(modal.element).find(".form")
                     let color = $form.find("#color").val()
-                    module.persistence.saveValue("newGameColor", color)
+                    chessConsole.persistence.saveValue("newGameColor", color)
                     const level = parseInt($form.find("#level").val(), 10) || 1
                     if (color !== COLOR.white && color !== COLOR.black) {
-                        color = (module.props.playerColor === COLOR.white) ? COLOR.black : COLOR.white
+                        color = (chessConsole.props.playerColor === COLOR.white) ? COLOR.black : COLOR.white
                     }
                     modal.hide()
-                    module.newGame({playerColor: color, engineLevel: level})
+                    chessConsole.newGame({playerColor: color, engineLevel: level})
                 })
             }
             $.showModal(props)

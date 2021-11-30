@@ -6,7 +6,7 @@
 
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {messageBrokerTopics} from "../../lib/chess-console/ChessConsole.js"
+import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
 
 export const ENGINE_STATE = {
     LOADING: 1,
@@ -32,13 +32,10 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
     constructor(chessConsole, name, props) {
         super(chessConsole, name, props)
-
-        this.engineWorker = null
-        this.props = props
-        this.model = chessConsole.state
-        this.level = props.level ? props.level : 1
         this.scoreHistory = {}
-        this.score = null
+        this.engineWorker = undefined
+        this.level = undefined
+        this.score = undefined
         this.i18n = chessConsole.i18n
         this.i18n.load({
             de: {
@@ -52,12 +49,12 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
 
         this.engineState = ENGINE_STATE.LOADING
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.newGame, (data) => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
             if(data.props.engineLevel) {
                 this.level = data.props.engineLevel
             }
         })
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.load, () => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.load, () => {
             if(this.chessConsole.persistence.loadValue("level")) {
                 this.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
             }
@@ -70,7 +67,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.score = score
             }
         })
-        this.chessConsole.messageBroker.subscribe(messageBrokerTopics.newGame, () => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, () => {
             this.scoreHistory = {}
             this.score = null
         })
@@ -131,7 +128,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 } else if (match[1] === 'mate') {
                     tmpScore = '#' + Math.abs(score)
                 }
-                this.scoreHistory[this.model.plyCount] = tmpScore
+                this.scoreHistory[this.chessConsole.state.plyCount] = tmpScore
                 this.score = tmpScore
             }
         }
@@ -142,7 +139,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         const listener = (event) => {
             this.workerListener(event)
         }
-        if (this.engineWorker !== null) {
+        if (this.engineWorker) {
             this.engineWorker.removeEventListener("message", listener)
             this.engineWorker.terminate()
         }
@@ -161,12 +158,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
         bookRequest.responseType = "arraybuffer"
         bookRequest.onload = (() => {
             if (bookRequest.status === 200) {
+                console.log("book loaded")
                 this.engineWorker.postMessage({book: bookRequest.response})
             } else {
                 console.error("engine book not loaded")
             }
         })
-        bookRequest.send(null)
+        bookRequest.send(undefined)
     }
 
     moveRequest(fen, moveResponse) {
@@ -178,7 +176,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         const timeout = 1000    // https://www.reddit.com/r/ProgrammerHumor/comments/6xwely/from_the_apple_chess_engine_code/
                                 // https://opensource.apple.com/source/Chess/Chess-347/Sources/MBCEngine.mm.auto.html
         setTimeout(() => {
-            if (!this.model.chess.gameOver()) {
+            if (!this.chessConsole.state.chess.gameOver()) {
                 this.uciCmd('position fen ' + fen)
                 this.uciCmd('go depth ' + (LEVEL_DEPTH[this.level]))
             }
