@@ -182,4 +182,5 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         }, timeout)
     }
+
 }
