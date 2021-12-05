@@ -154,6 +154,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }
         this.uciCmd('uci')
         this.uciCmd('ucinewgame')
+        // this.uciCmd('setoption name OwnBook value false')
         this.uciCmd('isready')
     }
 
@@ -163,7 +164,8 @@ export class StockfishPlayer extends ChessConsolePlayer {
         bookRequest.responseType = "arraybuffer"
         bookRequest.onload = (() => {
             if (bookRequest.status === 200) {
-                this.engineWorker.postMessage({book: bookRequest.response})
+                // this.engineWorker.postMessage({book: bookRequest.response})
+                // this.uciCmd("setoption name OwnBook")
             } else {
                 console.error("engine book not loaded")
             }
