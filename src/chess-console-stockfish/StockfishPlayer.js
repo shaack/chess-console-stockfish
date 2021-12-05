@@ -149,7 +149,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.engineWorker = new Worker(this.props.worker)
         this.engineWorker.addEventListener("message", listener)
 
-        this.loadBook()
+        if(this.props.book) {
+            this.loadBook()
+        }
         this.uciCmd('uci')
         this.uciCmd('ucinewgame')
         this.uciCmd('isready')
