@@ -87,14 +87,18 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
     uciCmd(cmd) {
         if(this.props.debug) {
-            console.log("uciCmd", cmd)
+            console.log("uci ->", cmd)
         }
         this.engineWorker.postMessage(cmd)
     }
 
     workerListener(event) {
         if(this.props.debug) {
-            console.log("workerListener event", event)
+            if(event.type === "message") {
+                console.log("  msg", event.data)
+            } else {
+                console.log(event)
+            }
         }
         const line = event.data
         if (line === 'uciok') {
