@@ -153,28 +153,10 @@ export class StockfishPlayer extends ChessConsolePlayer {
         this.engineWorker = new Worker(this.props.worker)
         this.engineWorker.addEventListener("message", listener)
 
-        if(this.props.book) {
-            this.loadBook()
-        }
         this.uciCmd('uci')
         this.uciCmd('ucinewgame')
         // this.uciCmd('setoption name OwnBook value false')
         this.uciCmd('isready')
-    }
-
-    loadBook() {
-        const bookRequest = new XMLHttpRequest()
-        bookRequest.open('GET', this.props.book, true)
-        bookRequest.responseType = "arraybuffer"
-        bookRequest.onload = (() => {
-            if (bookRequest.status === 200) {
-                // this.engineWorker.postMessage({book: bookRequest.response})
-                // this.uciCmd("setoption name OwnBook")
-            } else {
-                console.error("engine book not loaded")
-            }
-        })
-        bookRequest.send(null)
     }
 
     moveRequest(fen, moveResponse) {

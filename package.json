@@ -28,6 +28,8 @@
     "bootstrap": "^4.6.1",
     "chess-console": "^4.10.4",
     "cm-chess-engine-runner": "^1.0.3",
-    "cm-web-modules": "^1.14.0"
+    "cm-web-modules": "^1.14.0",
+    "modrator": "^1.2.1",
+    "stockfish": "^11.0.0"
   }
 }
