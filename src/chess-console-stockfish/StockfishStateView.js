@@ -44,7 +44,7 @@ export class StockfishStateView extends UiComponent {
                 this.thinkingElement.style.display = 'none'
             }
         })
-        Observe.property(props.player.state, "score", () => {
+        Observe.property(player.state, "score", () => {
             if (player.score) {
                 let scoreFormatted
                 if (player.score.indexOf("#") !== -1) {
@@ -58,8 +58,8 @@ export class StockfishStateView extends UiComponent {
             }
         })
         Observe.property(this.chessConsole.state, "plyViewed", () => {
-            if (this.props.player.props.debug) {
-                console.log(this.props.player.state.scoreHistory)
+            if (this.player.props.debug) {
+                console.log("scoreHistory", this.player.state.scoreHistory)
             }
             let score = player.state.scoreHistory[this.chessConsole.state.plyViewed]
             if (!score && this.chessConsole.state.plyViewed > 0) {
@@ -81,6 +81,6 @@ export class StockfishStateView extends UiComponent {
     }
 
     updatePlayerName() {
-        this.props.player.name = `Stockfish ${this.chessConsole.i18n.t("level")} ${this.props.player.state.level}`
+        this.player.name = `Stockfish ${this.chessConsole.i18n.t("level")} ${this.player.state.level}`
     }
 }

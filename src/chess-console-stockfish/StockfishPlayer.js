@@ -10,6 +10,7 @@ import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
 import {PolyglotRunner} from "../../lib/cm-chess-engine-runner/PolyglotRunner.js"
 import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
 import {StockfishRunner} from "../../lib/cm-chess-engine-runner/StockfishRunner.js"
+import {COLOR} from "../../lib/cm-chess/Chess.js"
 
 export class StockfishPlayer extends ChessConsolePlayer {
 
@@ -41,11 +42,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         })
 
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
-            if (data.props.engineLevel) {
-                this.state.level = data.props.engineLevel
-            }
-        })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.load, () => {
             if (this.chessConsole.persistence.loadValue("level")) {
                 this.state.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
@@ -59,9 +55,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.score = score
             }
         })
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, () => {
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
             this.scoreHistory = {}
             this.score = null
+            if (data.props.engineLevel) {
+                this.state.level = data.props.engineLevel
+            }
+            this.state.currentRunner = this.polyglotRunner
         })
         Observe.property(this.state, "level", () => {
             this.chessConsole.persistence.saveValue("level", this.state.level)
@@ -81,6 +81,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
             this.state.engineState = ENGINE_STATE.THINKING
             let nextMove = await this.state.currentRunner.calculateMove(fen)
             if (!nextMove) {
+                if (this.props.debug) {
+                    console.log("no move found with", this.state.currentRunner.constructor.name)
+                }
                 if (this.state.currentRunner === this.polyglotRunner) {
                     this.state.currentRunner = this.stockfishRunner
                     this.moveRequest(fen, moveResponse)
@@ -89,6 +92,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 }
             } else {
                 nextMove = await this.state.currentRunner.calculateMove(fen)
+                if(nextMove.score) {
+                    this.score = this.chessConsole.props.playerColor !== COLOR.white ? -nextMove.score : nextMove.score
+                    this.scoreHistory[this.chessConsole.plyCount] = this.score
+                }
+                if (this.props.debug) {
+                    console.log(nextMove, this.state.currentRunner)
+                }
                 moveResponse(nextMove)
             }
         })
