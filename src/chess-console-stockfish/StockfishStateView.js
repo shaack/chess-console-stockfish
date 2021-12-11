@@ -37,7 +37,8 @@ export class StockfishStateView extends UiComponent {
             this.updatePlayerName()
         })
         Observe.property(player.state, "engineState", () => {
-            if (player.engineState === ENGINE_STATE.THINKING) {
+            // console.log("engineState", player.state.engineState)
+            if (player.state.engineState === ENGINE_STATE.THINKING) {
                 this.thinkingElement.style.display = ''
             } else {
                 this.thinkingElement.style.display = 'none'

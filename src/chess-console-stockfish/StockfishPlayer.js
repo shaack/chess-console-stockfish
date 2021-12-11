@@ -10,7 +10,7 @@ import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
 import {PolyglotRunner} from "../../lib/cm-chess-engine-runner/PolyglotRunner.js"
 import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
 import {StockfishRunner} from "../../lib/cm-chess-engine-runner/StockfishRunner.js"
-import {COLOR} from "../../lib/cm-chess/Chess.js"
+// import {COLOR} from "../../lib/cm-chess/Chess.js"
 
 export class StockfishPlayer extends ChessConsolePlayer {
 
@@ -56,8 +56,8 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
-            this.chessConsole.persistence.saveValue("score", undefined)
-            this.chessConsole.persistence.saveValue("scoreHistory", {})
+            this.state.scoreHistory = {}
+            this.state.score = 0
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
             if (data.props.engineLevel) {
@@ -80,7 +80,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }
         this.initialisation.then(async () => {
             this.state.engineState = ENGINE_STATE.THINKING
-            let nextMove = await this.state.currentRunner.calculateMove(fen)
+            let nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level})
             if (!nextMove) {
                 if (this.props.debug) {
                     console.log("no move found with", this.state.currentRunner.constructor.name)
@@ -92,14 +92,14 @@ export class StockfishPlayer extends ChessConsolePlayer {
                     throw new Error("can't find move with fen " + fen + " and runner " + this.state.currentRunner)
                 }
             } else {
-                nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level})
                 if (this.props.debug) {
                     console.log("nextMove", nextMove, this.state.currentRunner.constructor.name)
                 }
                 let newScore = undefined
                 if (nextMove.score !== undefined) {
                     if(!isNaN(nextMove.score)) {
-                        newScore = this.chessConsole.props.playerColor === COLOR.white ? -nextMove.score : nextMove.score
+                        // newScore = this.chessConsole.props.playerColor === COLOR.white ? -nextMove.score : nextMove.score
+                        newScore = -nextMove.score
                     } else {
                         newScore = nextMove.score
                     }
@@ -108,6 +108,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 } else {
                     this.state.score = undefined
                 }
+                this.state.engineState = ENGINE_STATE.READY
                 moveResponse(nextMove)
             }
         })
