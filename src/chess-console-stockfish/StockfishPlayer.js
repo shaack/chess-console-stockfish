@@ -91,13 +91,13 @@ export class StockfishPlayer extends ChessConsolePlayer {
                     throw new Error("can't find move with fen " + fen + " and runner " + this.state.currentRunner)
                 }
             } else {
-                nextMove = await this.state.currentRunner.calculateMove(fen)
-                if(nextMove.score) {
+                nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level})
+                if (nextMove.score) {
                     this.score = this.chessConsole.props.playerColor !== COLOR.white ? -nextMove.score : nextMove.score
                     this.scoreHistory[this.chessConsole.plyCount] = this.score
                 }
                 if (this.props.debug) {
-                    console.log(nextMove, this.state.currentRunner)
+                    console.log("nextMove", nextMove, this.state.currentRunner.constructor.name)
                 }
                 moveResponse(nextMove)
             }
