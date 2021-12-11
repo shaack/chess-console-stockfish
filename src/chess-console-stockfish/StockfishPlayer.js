@@ -47,17 +47,19 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.state.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
             }
             if (this.chessConsole.persistence.loadValue("scoreHistory")) {
-                this.scoreHistory = this.chessConsole.persistence.loadValue("scoreHistory")
-                let score = this.scoreHistory[this.chessConsole.state.plyViewed]
+                this.state.scoreHistory = this.chessConsole.persistence.loadValue("scoreHistory")
+                let score = this.state.scoreHistory[this.chessConsole.state.plyViewed]
                 if (!score && this.chessConsole.state.plyViewed > 0) {
-                    score = this.scoreHistory[this.chessConsole.state.plyViewed - 1]
+                    score = this.state.scoreHistory[this.chessConsole.state.plyViewed - 1]
                 }
-                this.score = score
+                this.state.score = score
             }
         })
+        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
+            this.chessConsole.persistence.saveValue("score", undefined)
+            this.chessConsole.persistence.saveValue("scoreHistory", {})
+        })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
-            this.scoreHistory = {}
-            this.score = null
             if (data.props.engineLevel) {
                 this.state.level = data.props.engineLevel
             }
@@ -70,7 +72,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
             this.chessConsole.persistence.saveValue("score", this.state.score)
             this.chessConsole.persistence.saveValue("scoreHistory", this.state.scoreHistory)
         })
-
     }
 
     moveRequest(fen, moveResponse) {
@@ -92,12 +93,20 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 }
             } else {
                 nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level})
-                if (nextMove.score) {
-                    this.score = this.chessConsole.props.playerColor !== COLOR.white ? -nextMove.score : nextMove.score
-                    this.scoreHistory[this.chessConsole.plyCount] = this.score
-                }
                 if (this.props.debug) {
                     console.log("nextMove", nextMove, this.state.currentRunner.constructor.name)
+                }
+                let newScore = undefined
+                if (nextMove.score !== undefined) {
+                    if(!isNaN(nextMove.score)) {
+                        newScore = this.chessConsole.props.playerColor === COLOR.white ? -nextMove.score : nextMove.score
+                    } else {
+                        newScore = nextMove.score
+                    }
+                    this.state.scoreHistory[this.chessConsole.state.chess.plyCount()] = newScore
+                    this.state.score = newScore
+                } else {
+                    this.state.score = undefined
                 }
                 moveResponse(nextMove)
             }

@@ -55,7 +55,7 @@ export class StockfishNewGameDialog {
                         color = (chessConsole.props.playerColor === COLOR.white) ? COLOR.black : COLOR.white
                     }
                     modal.hide()
-                    chessConsole.initGame({playerColor: color, engineLevel: level})
+                    chessConsole.newGame({playerColor: color, engineLevel: level})
                 })
             }
             $.showModal(props)
