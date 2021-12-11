@@ -103,9 +103,7 @@
     new StockfishGameControl(chessConsole, {
         player: chessConsole.opponent
     })
-    new StockfishStateView(chessConsole, {
-        player: chessConsole.opponent
-    })
+    new StockfishStateView(chessConsole, chessConsole.opponent )
     new GameStateOutput(chessConsole)
     new Sound(chessConsole, {
         soundSpriteFile: "../assets/sounds/chess_console_sounds.mp3"

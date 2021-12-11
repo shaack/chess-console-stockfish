@@ -9,11 +9,18 @@ import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
 
 export class StockfishStateView extends UiComponent {
 
-    constructor(chessConsole, props = {}) {
+    /**
+     *
+     * @param chessConsole
+     * @param player
+     * @param props {player: player, spinnerIcon: spinner}
+     */
+    constructor(chessConsole, player, props = {}) {
         super(undefined, props)
         this.chessConsole = chessConsole
+        this.player = player
         const i18n = chessConsole.i18n
-        if(!props.spinnerIcon) {
+        if (!props.spinnerIcon) {
             props.spinnerIcon = "spinner"
         }
         this.numberFormat = new Intl.NumberFormat(i18n.locale, {
@@ -27,23 +34,23 @@ export class StockfishStateView extends UiComponent {
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
         this.thinkingElement.style.display = 'none'
-        Observe.property(props.player.state, "level", () => {
+        Observe.property(player.state, "level", () => {
             this.updatePlayerName()
         })
-        Observe.property(props.player.state, "engineState", () => {
-            if(props.player.engineState === ENGINE_STATE.THINKING) {
+        Observe.property(player.state, "engineState", () => {
+            if (player.engineState === ENGINE_STATE.THINKING) {
                 this.thinkingElement.style.display = ''
             } else {
                 this.thinkingElement.style.display = 'none'
             }
         })
         Observe.property(props.player.state, "score", () => {
-            if(props.player.score) {
+            if (player.score) {
                 let scoreFormatted
-                if(props.player.score.indexOf("#") !== -1) {
-                    scoreFormatted = props.player.score
+                if (player.score.indexOf("#") !== -1) {
+                    scoreFormatted = player.score
                 } else {
-                    scoreFormatted = this.numberFormat.format(props.player.score)
+                    scoreFormatted = this.numberFormat.format(player.score)
                 }
                 this.scoreElement.innerHTML = `${i18n.t("score")} ${scoreFormatted}`
             } else {
@@ -51,13 +58,16 @@ export class StockfishStateView extends UiComponent {
             }
         })
         Observe.property(this.chessConsole.state, "plyViewed", () => {
-            let score = props.player.state.scoreHistory[this.app.state.plyViewed]
+            if (this.props.player.props.debug) {
+                console.log(this.props.player.state.scoreHistory)
+            }
+            let score = player.state.scoreHistory[this.chessConsole.state.plyViewed]
             if (!score && this.chessConsole.state.plyViewed > 0) {
-                score = props.player.state.scoreHistory[this.app.state.plyViewed - 1]
+                score = player.state.scoreHistory[this.chessConsole.state.plyViewed - 1]
             }
             if (score) {
                 let scoreFormatted
-                if(score.indexOf("#") !== -1) {
+                if (score.indexOf("#") !== -1) {
                     scoreFormatted = score
                 } else {
                     scoreFormatted = this.numberFormat.format(score)

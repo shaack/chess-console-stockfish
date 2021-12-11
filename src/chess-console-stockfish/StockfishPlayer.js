@@ -15,10 +15,8 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
     constructor(chessConsole, name, props) {
         super(chessConsole, name, props)
-
-        this.props = props
-        this.polyglotRunner = new PolyglotRunner({bookUrl: "./assets/books/openings.bin"})
-        this.stockfishRunner = new StockfishRunner({workerUrl: "./lib/stockfish.js", debug: true})
+        this.polyglotRunner = new PolyglotRunner({bookUrl: props.book})
+        this.stockfishRunner = new StockfishRunner({workerUrl: props.worker, debug: true})
         this.state = {
             scoreHistory: {},
             score: null,
@@ -81,14 +79,17 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }
         this.initialisation.then(async () => {
             this.state.engineState = ENGINE_STATE.THINKING
-            let nextMove = await this.state.currentRunner.calculateMove()
-            if(!nextMove) {
-                if(this.state.currentRunner === this.polyglotRunner) {
+            let nextMove = await this.state.currentRunner.calculateMove(fen)
+            if (!nextMove) {
+                if (this.state.currentRunner === this.polyglotRunner) {
                     this.state.currentRunner = this.stockfishRunner
                     this.moveRequest(fen, moveResponse)
                 } else {
                     throw new Error("can't find move with fen " + fen + " and runner " + this.state.currentRunner)
                 }
+            } else {
+                nextMove = await this.state.currentRunner.calculateMove(fen)
+                moveResponse(nextMove)
             }
         })
     }
