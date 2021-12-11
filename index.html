@@ -83,9 +83,9 @@
         {name: i18n.t("playerName"), type: LocalPlayer},
         {
             name: "Stockfish", type: StockfishPlayer, props: {
-                worker: "./ext/stockfish-niklasf-v10.js",
-                book: "./assets/openings.bin",
-                level: 2,
+                worker: "./lib/stockfish.js",
+                book: "./assets/books/openings.bin",
+                level: 1,
                 debug: true
             }
         },

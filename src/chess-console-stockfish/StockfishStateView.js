@@ -4,14 +4,15 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {ENGINE_STATE} from "./StockfishPlayer.js"
+import {UiComponent} from "../../lib/cm-web-modules/app/UiComponent.js"
+import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
 
-export class StockfishStateView {
+export class StockfishStateView extends UiComponent {
 
-    constructor(module, props = {}) {
-        this.app = module
-        this.props = props
-        const i18n = module.i18n
+    constructor(chessConsole, props = {}) {
+        super(undefined, props)
+        this.chessConsole = chessConsole
+        const i18n = chessConsole.i18n
         if(!props.spinnerIcon) {
             props.spinnerIcon = "spinner"
         }
@@ -21,22 +22,22 @@ export class StockfishStateView {
         })
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
-        this.app.componentContainers.right.append(this.element)
+        this.chessConsole.componentContainers.right.append(this.element)
         this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-${props.spinnerIcon} fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
         this.thinkingElement.style.display = 'none'
-        Observe.property(props.player, "level", () => {
+        Observe.property(props.player.state, "level", () => {
             this.updatePlayerName()
         })
-        Observe.property(props.player, "engineState", () => {
+        Observe.property(props.player.state, "engineState", () => {
             if(props.player.engineState === ENGINE_STATE.THINKING) {
                 this.thinkingElement.style.display = ''
             } else {
                 this.thinkingElement.style.display = 'none'
             }
         })
-        Observe.property(props.player, "score", () => {
+        Observe.property(props.player.state, "score", () => {
             if(props.player.score) {
                 let scoreFormatted
                 if(props.player.score.indexOf("#") !== -1) {
@@ -49,10 +50,10 @@ export class StockfishStateView {
                 this.scoreElement.innerHTML = ``
             }
         })
-        Observe.property(this.app.state, "plyViewed", () => {
-            let score = props.player.scoreHistory[this.app.state.plyViewed]
-            if (!score && this.app.state.plyViewed > 0) {
-                score = props.player.scoreHistory[this.app.state.plyViewed - 1]
+        Observe.property(this.chessConsole.state, "plyViewed", () => {
+            let score = props.player.state.scoreHistory[this.app.state.plyViewed]
+            if (!score && this.chessConsole.state.plyViewed > 0) {
+                score = props.player.state.scoreHistory[this.app.state.plyViewed - 1]
             }
             if (score) {
                 let scoreFormatted
@@ -70,6 +71,6 @@ export class StockfishStateView {
     }
 
     updatePlayerName() {
-        this.props.player.name = `Stockfish ${this.app.i18n.t("level")} ${this.props.player.level}`
+        this.props.player.name = `Stockfish ${this.chessConsole.i18n.t("level")} ${this.props.player.state.level}`
     }
 }
