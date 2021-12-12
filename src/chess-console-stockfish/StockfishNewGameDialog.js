@@ -17,13 +17,15 @@ export class StockfishNewGameDialog {
                 color: "Farbe",
                 white: "Weiss",
                 black: "Schwarz",
-                auto: "automatisch"
+                auto: "Automatisch wechselnd",
+                random: "Zufallsauswahl"
             },
             en: {
                 color: "Color",
-                white: "White",
-                black: "Black",
-                auto: "automatically"
+                white: "white",
+                black: "black",
+                auto: "automatically alternating",
+                random: "random"
             }
         }).then(() => {
             const newGameColor = chessConsole.persistence.loadValue("newGameColor")
@@ -31,9 +33,10 @@ export class StockfishNewGameDialog {
             props.body = `<div class="form"><div class="form-group row">
                         <div class="col-3"><label for="color" class="col-form-label">${i18n.t("color")}</label></div>
                         <div class="col-9"><select id="color" class="form-control">
-                        <option value="auto">${i18n.t("auto")}</option>
                         <option value="w" ${newGameColor === "w" ? "selected" : ""}>${i18n.t("white")}</option>
                         <option value="b" ${newGameColor === "b" ? "selected" : ""}>${i18n.t("black")}</option>
+                        <option value="random" ${newGameColor === "random" ? "selected" : ""}>${i18n.t("random")}</option>
+                        <option value="auto" ${newGameColor === "auto" ? "selected" : ""}>${i18n.t("auto")}</option>
                         </select></div>
                         </div>
                         <div class="form-group row">
@@ -51,10 +54,13 @@ export class StockfishNewGameDialog {
                     let color = $form.find("#color").val()
                     chessConsole.persistence.saveValue("newGameColor", color)
                     const level = parseInt($form.find("#level").val(), 10) || 1
-                    if (color !== COLOR.white && color !== COLOR.black) {
+                    if (color === "auto") {
                         color = (chessConsole.props.playerColor === COLOR.white) ? COLOR.black : COLOR.white
+                    } else if (color === "random") {
+                        color = "wb".charAt(Math.floor(Math.random() * 2))
                     }
                     modal.hide()
+                    console.log("color", color)
                     chessConsole.newGame({playerColor: color, engineLevel: level})
                 })
             }
