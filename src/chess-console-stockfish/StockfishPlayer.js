@@ -37,7 +37,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 level: "Stufe"
             },
             en: {
-                score: "Ccore",
+                score: "Score",
                 level: "Level"
             }
         })
