@@ -17,7 +17,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
     constructor(chessConsole, name, props) {
         super(chessConsole, name, props)
         this.polyglotRunner = new PolyglotRunner({bookUrl: props.book, responseDelay: 1000})
-        this.stockfishRunner = new StockfishRunner({workerUrl: props.worker, debug: true, responseDelay: 2000})
+        this.stockfishRunner = new StockfishRunner({workerUrl: props.worker, debug: props.debug, responseDelay: 2000})
         this.state = {
             scoreHistory: {},
             score: null,
