@@ -60,7 +60,6 @@ export class StockfishNewGameDialog {
                         color = "wb".charAt(Math.floor(Math.random() * 2))
                     }
                     modal.hide()
-                    console.log("color", color)
                     chessConsole.newGame({playerColor: color, engineLevel: level})
                 })
             }
