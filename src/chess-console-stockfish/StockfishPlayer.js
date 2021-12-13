@@ -57,6 +57,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.moveUndone, () => {
             this.state.currentRunner = this.polyglotRunner
+            // todo remove scores from score history
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
             this.state.scoreHistory = {}
