@@ -7,9 +7,9 @@
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
-import {PolyglotRunner} from "../../lib/cm-chess-engine-runner/PolyglotRunner.js"
-import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
-import {StockfishRunner} from "../../lib/cm-chess-engine-runner/StockfishRunner.js"
+import {PolyglotRunner} from "../../lib/cm-engine-runner/PolyglotRunner.js"
+import {ENGINE_STATE} from "../../lib/cm-engine-runner/EngineRunner.js"
+import {StockfishRunner} from "../../lib/cm-engine-runner/StockfishRunner.js"
 // import {COLOR} from "../../lib/cm-chess/Chess.js"
 
 export class StockfishPlayer extends ChessConsolePlayer {

@@ -5,7 +5,7 @@
  */
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
 import {UiComponent} from "../../lib/cm-web-modules/app/Component.js"
-import {ENGINE_STATE} from "../../lib/cm-chess-engine-runner/EngineRunner.js"
+import {ENGINE_STATE} from "../../lib/cm-engine-runner/EngineRunner.js"
 
 export class StockfishStateView extends UiComponent {
 
