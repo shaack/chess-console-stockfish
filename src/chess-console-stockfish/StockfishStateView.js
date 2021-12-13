@@ -29,7 +29,7 @@ export class StockfishStateView extends UiComponent {
         this.element = document.createElement("div")
         this.element.setAttribute("class", "engine-state mb-2")
         this.chessConsole.componentContainers.right.append(this.element)
-        this.element.innerHTML = `<div><span class="score"></span> <span class="thinking text-muted"><i class="fas fa-${this.props.spinnerIcon} fa-spin"></i></span></div>`
+        this.element.innerHTML = `<div><span class="score text-muted"></span> <span class="thinking text-muted"><i class="fas fa-${this.props.spinnerIcon} fa-spin"></i></span></div>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
         this.thinkingElement.style.display = 'none'
