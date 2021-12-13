@@ -16,16 +16,17 @@ export class StockfishPlayer extends ChessConsolePlayer {
 
     constructor(chessConsole, name, props) {
         super(chessConsole, name, props)
-        this.polyglotRunner = new PolyglotRunner({bookUrl: props.book })
-        this.stockfishRunner = new StockfishRunner({workerUrl: props.worker, debug: props.debug })
+        this.engineRunner = new StockfishRunner({workerUrl: props.worker, debug: props.debug })
+        this.openingRunner = props.book ? new PolyglotRunner({bookUrl: props.book }) : this.engineRunner
         this.state = {
             scoreHistory: {},
             score: null,
             level: props.level,
             engineState: ENGINE_STATE.LOADING,
-            currentRunner: this.polyglotRunner
+            currentRunner: this.openingRunner
         }
-        this.initialisation = Promise.all([this.polyglotRunner.initialization, this.stockfishRunner.initialization])
+        console.log("state", this.state)
+        this.initialisation = Promise.all([this.openingRunner.initialization, this.engineRunner.initialization])
         this.initialisation.then(() => {
             this.state.engineState = ENGINE_STATE.LOADED
         })
@@ -56,7 +57,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.moveUndone, () => {
-            this.state.currentRunner = this.polyglotRunner
+            this.state.currentRunner = this.openingRunner
             // todo remove scores from score history
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
@@ -67,7 +68,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
             if (data.props.engineLevel) {
                 this.state.level = data.props.engineLevel
             }
-            this.state.currentRunner = this.polyglotRunner
+            this.state.currentRunner = this.openingRunner
         })
         Observe.property(this.state, "level", () => {
             this.chessConsole.persistence.saveValue("level", this.state.level)
@@ -89,14 +90,15 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 if (this.props.debug) {
                     console.log("no move found with", this.state.currentRunner.constructor.name)
                 }
-                if (this.state.currentRunner === this.polyglotRunner) {
-                    this.state.currentRunner = this.stockfishRunner
+                if (this.state.currentRunner === this.openingRunner) {
+                    this.state.currentRunner = this.engineRunner
                     this.moveRequest(fen, moveResponse)
                 } else {
                     throw new Error("can't find move with fen " + fen + " and runner " + this.state.currentRunner)
                 }
             } else {
                 if (this.props.debug) {
+                    console.log("this.state.currentRunner", this.state.currentRunner)
                     console.log("nextMove", nextMove, this.state.currentRunner.constructor.name)
                 }
                 let newScore = undefined
