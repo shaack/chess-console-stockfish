@@ -5,7 +5,8 @@ This is a full functional chess computer written in vanilla ES6.
 
 ## See it in action
 
-[Usage example on chessmail.de](https://www.chessmail.de/pages/chess-computer.html)
+- [Demo (the index.html of this repository)](https://shaack.com/projekte/chess-console-stockfish/)
+- [Real-life example in chessmail.de](https://www.chessmail.de/pages/chess-computer.html)
 
 ## Installation
 
