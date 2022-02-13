@@ -27,7 +27,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^4.6.1",
     "chess-console": "^4.12.1",
-    "cm-engine-runner": "^1.0.15",
+    "cm-engine-runner": "^1.1.0",
     "cm-web-modules": "^1.16.0",
     "modrator": "^1.2.1"
   }

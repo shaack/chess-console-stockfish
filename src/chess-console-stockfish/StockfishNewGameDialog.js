@@ -5,6 +5,7 @@
  */
 
 import {COLOR} from "../../lib/cm-chess/Chess.js"
+import {LEVELS} from "../../lib/cm-engine-runner/StockfishRunner.js"
 
 export class StockfishNewGameDialog {
 
@@ -70,12 +71,13 @@ export class StockfishNewGameDialog {
     renderLevelOptions() {
         let html = ''
         const currentLevel = this.props.player.state.level
-        for (let i = 1; i <= 10; i++) {
+        const levels = Object.keys(LEVELS)
+        for (let i = levels[0]; i <= levels[levels.length - 1]; i++) {
             let selected = ''
             if (currentLevel === i) {
                 selected = 'selected '
             }
-            html += '<option ' + selected + 'value="' + i + '">' + i + '</option>'
+            html += '<option ' + selected + 'value="' + i + '">Level ' + i + '</option>' // (ELO ca. ' + (i * 65 + 1100) + ')
         }
         return html
     }

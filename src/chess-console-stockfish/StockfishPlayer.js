@@ -25,7 +25,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
             engineState: ENGINE_STATE.LOADING,
             currentRunner: this.openingRunner
         }
-        console.log("state", this.state)
         this.initialisation = Promise.all([this.openingRunner.initialization, this.engineRunner.initialization])
         this.initialisation.then(() => {
             this.state.engineState = ENGINE_STATE.LOADED
@@ -58,7 +57,6 @@ export class StockfishPlayer extends ChessConsolePlayer {
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.moveUndone, () => {
             this.state.currentRunner = this.openingRunner
-            // todo remove scores from score history
         })
         this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
             this.state.scoreHistory = {}
@@ -85,6 +83,9 @@ export class StockfishPlayer extends ChessConsolePlayer {
         }
         this.initialisation.then(async () => {
             this.state.engineState = ENGINE_STATE.THINKING
+            if(this.state.level < 3) {
+                this.state.currentRunner = this.engineRunner // No book for Level 1 and 2
+            }
             let nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level })
             if (!nextMove) {
                 if (this.props.debug) {
