@@ -64,7 +64,7 @@ export class StockfishNewGameDialog {
                     chessConsole.newGame({playerColor: color, engineLevel: level})
                 })
             }
-            $.showModal(props)
+            bootstrap.showModal(props)
         })
     }
 
