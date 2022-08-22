@@ -28,7 +28,7 @@
     "bootstrap": "^5.2.0",
     "chess-console": "^5.0.1",
     "cm-engine-runner": "^1.1.0",
-    "cm-web-modules": "^1.18.3",
+    "cm-web-modules": "^1.18.5",
     "modrator": "^1.2.1"
   }
 }
