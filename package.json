@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/shaack/chess-console-stockfish#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.2.0",
-    "bootstrap": "^5.2.0",
-    "chess-console": "^5.1.2",
+    "@fortawesome/fontawesome-free": "^6.3.0",
+    "bootstrap": "^5.2.3",
+    "chess-console": "^6.0.2",
     "cm-engine-runner": "^1.1.0",
-    "cm-web-modules": "^1.18.5",
+    "cm-web-modules": "^1.18.10",
     "modrator": "^1.2.1"
   }
 }

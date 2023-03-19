@@ -51,7 +51,7 @@
 
     import {ChessConsole} from "./lib/chess-console/ChessConsole.js"
     import {LocalPlayer} from "./lib/chess-console/players/LocalPlayer.js"
-    import {Board} from "./lib/chess-console/components/Board/Board.js"
+    import {Board} from "./lib/chess-console/components/Board.js"
     import {GameStateOutput} from "./lib/chess-console/components/GameStateOutput.js"
     import {History} from "./lib/chess-console/components/History.js"
     import {CapturedPieces} from "./lib/chess-console/components/CapturedPieces.js"
@@ -83,11 +83,10 @@
                 level: 1,
                 debug: true
             }
-        },
-        {
-            figuresSpriteFile: "./node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
         })
-    new Board(chessConsole).initialization.then(() => {
+    new Board(chessConsole, {
+        assetsUrl: "./node_modules/cm-chessboard/assets/"
+    }).initialization.then(() => {
         new Persistence(chessConsole, {
             savePrefix: "Stockfish"
         }).load()
@@ -98,7 +97,7 @@
     new StockfishGameControl(chessConsole, {
         player: chessConsole.opponent
     })
-    new StockfishStateView(chessConsole, chessConsole.opponent )
+    new StockfishStateView(chessConsole, chessConsole.opponent)
     new GameStateOutput(chessConsole)
     new Sound(chessConsole, {
         soundSpriteFile: "./assets/sounds/chess_console_sounds.mp3"

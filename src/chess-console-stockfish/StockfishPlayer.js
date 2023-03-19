@@ -15,7 +15,11 @@ import {StockfishRunner} from "../../lib/cm-engine-runner/StockfishRunner.js"
 export class StockfishPlayer extends ChessConsolePlayer {
 
     constructor(chessConsole, name, props) {
-        super(chessConsole, name, props)
+        super(chessConsole, name)
+        this.props = {
+            debug: false
+        }
+        Object.assign(this.props, props)
         this.engineRunner = new StockfishRunner({workerUrl: props.worker, debug: props.debug })
         this.openingRunner = props.book ? new PolyglotRunner({bookUrl: props.book }) : this.engineRunner
         this.state = {
