@@ -2,7 +2,8 @@
 $spacer-small: $spacer / 2;
 
 @import "../../node_modules/chess-console/assets/styles/chess-console.scss";
-@import "../../node_modules/cm-chessboard/assets/styles/cm-chessboard.scss";
+@import "../../node_modules/cm-chessboard/assets/chessboard.scss";
+@import "../../node_modules/cm-chessboard/assets/extensions/markers/markers.scss";
 
 html {
   body {

@@ -6,7 +6,7 @@
 
 import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
 import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {consoleMessageTopics} from "../../lib/chess-console/ChessConsole.js"
+import {CONSOLE_MESSAGE_TOPICS} from "../../lib/chess-console/ChessConsole.js"
 import {PolyglotRunner} from "../../lib/cm-engine-runner/PolyglotRunner.js"
 import {ENGINE_STATE} from "../../lib/cm-engine-runner/EngineRunner.js"
 import {StockfishRunner} from "../../lib/cm-engine-runner/StockfishRunner.js"
@@ -46,7 +46,7 @@ export class StockfishPlayer extends ChessConsolePlayer {
             }
         })
 
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.load, () => {
+        this.chessConsole.messageBroker.subscribe(CONSOLE_MESSAGE_TOPICS.load, () => {
             if (this.chessConsole.persistence.loadValue("level")) {
                 this.state.level = parseInt(this.chessConsole.persistence.loadValue("level"), 10)
             }
@@ -59,14 +59,14 @@ export class StockfishPlayer extends ChessConsolePlayer {
                 this.state.score = score
             }
         })
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.moveUndone, () => {
+        this.chessConsole.messageBroker.subscribe(CONSOLE_MESSAGE_TOPICS.moveUndone, () => {
             this.state.currentRunner = this.openingRunner
         })
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.newGame, () => {
+        this.chessConsole.messageBroker.subscribe(CONSOLE_MESSAGE_TOPICS.newGame, () => {
             this.state.scoreHistory = {}
             this.state.score = 0
         })
-        this.chessConsole.messageBroker.subscribe(consoleMessageTopics.initGame, (data) => {
+        this.chessConsole.messageBroker.subscribe(CONSOLE_MESSAGE_TOPICS.initGame, (data) => {
             if (data.props.engineLevel) {
                 this.state.level = data.props.engineLevel
             }
