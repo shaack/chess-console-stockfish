@@ -6,7 +6,7 @@
   "main": "src/chess-console-stockfish/StockfishPlayer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.cjs"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/shaack/chess-console-stockfish#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.3.0",
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "bootstrap": "^5.2.3",
-    "chess-console": "^6.1.2",
-    "cm-engine-runner": "^1.1.0",
-    "cm-web-modules": "^1.18.11",
-    "modrator": "^1.2.1"
+    "chess-console": "^6.2.1",
+    "cm-engine-runner": "^1.1.1",
+    "cm-web-modules": "^1.18.12",
+    "modlib": "^1.2.11"
   }
 }
