@@ -27,9 +27,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
     "bootstrap": "^5.2.3",
-    "chess-console": "^6.2.1",
-    "cm-engine-runner": "^1.1.1",
-    "cm-web-modules": "^1.18.12",
-    "modlib": "^1.2.11"
+    "chess-console": "^6.5.0",
+    "cm-engine-runner": "^1.1.4",
+    "cm-web-modules": "^1.19.1",
+    "modlib": "^1.2.12"
   }
 }
