@@ -47,22 +47,40 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.7.2/dist/es-module-shims.min.js"></script>
+<!-- @formatter:off -->
+<script type="importmap">
+    {
+        "imports": {
+            "chess-console/": "./node_modules/chess-console/",
+            "cm-engine-runner/": "./node_modules/cm-engine-runner/",
+            "cm-polyglot/": "./node_modules/cm-polyglot/",
+            "cm-chessboard/": "./node_modules/cm-chessboard/",
+            "cm-web-modules/": "./node_modules/cm-web-modules/",
+            "chess.mjs/": "./node_modules/chess.mjs/",
+            "cm-pgn/": "./node_modules/cm-pgn/",
+            "cm-chess/": "./node_modules/cm-chess/",
+            "bootstrap-show-modal/": "./node_modules/bootstrap-show-modal/"
+        }
+    }
+</script>
+<!-- @formatter:on -->
 <script type="module">
 
-    import {ChessConsole} from "./lib/chess-console/ChessConsole.js"
-    import {LocalPlayer} from "./lib/chess-console/players/LocalPlayer.js"
-    import {Board} from "./lib/chess-console/components/Board.js"
-    import {GameStateOutput} from "./lib/chess-console/components/GameStateOutput.js"
-    import {History} from "./lib/chess-console/components/History.js"
-    import {CapturedPieces} from "./lib/chess-console/components/CapturedPieces.js"
-    import {HistoryControl} from "./lib/chess-console/components/HistoryControl.js"
-    import {Persistence} from "./lib/chess-console/components/Persistence.js"
-    import {Sound} from "./lib/chess-console/components/Sound.js"
+    import {ChessConsole} from "chess-console/src/ChessConsole.js"
+    import {LocalPlayer} from "chess-console/src/players/LocalPlayer.js"
+    import {Board} from "chess-console/src/components/Board.js"
+    import {GameStateOutput} from "chess-console/src/components/GameStateOutput.js"
+    import {History} from "chess-console/src/components/History.js"
+    import {CapturedPieces} from "chess-console/src/components/CapturedPieces.js"
+    import {HistoryControl} from "chess-console/src/components/HistoryControl.js"
+    import {Persistence} from "chess-console/src/components/Persistence.js"
+    import {Sound} from "chess-console/src/components/Sound.js"
 
-    import {StockfishGameControl} from "./src/chess-console-stockfish/StockfishGameControl.js"
-    import {StockfishPlayer} from "./src/chess-console-stockfish/StockfishPlayer.js"
-    import {StockfishStateView} from "./src/chess-console-stockfish/StockfishStateView.js"
-    import {I18n} from "./lib/cm-web-modules/i18n/I18n.js"
+    import {StockfishGameControl} from "./src/StockfishGameControl.js"
+    import {StockfishPlayer} from "./src/StockfishPlayer.js"
+    import {StockfishStateView} from "./src/StockfishStateView.js"
+    import {I18n} from "cm-web-modules/src/i18n/I18n.js"
 
     const i18n = new I18n()
     i18n.load({
@@ -78,7 +96,7 @@
         {name: i18n.t("playerName"), type: LocalPlayer},
         {
             name: "Stockfish", type: StockfishPlayer, props: {
-                worker: "./lib/stockfish-v10-niklasf.js",
+                worker: "./node_modules/cm-engine-runner/engines/stockfish-v10-niklasf.js",
                 book: "./assets/books/openings.bin",
                 level: 1,
                 debug: true

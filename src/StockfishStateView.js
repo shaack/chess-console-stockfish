@@ -3,9 +3,9 @@
  * Repository: https://github.com/shaack/chess-console-stockfish
  * License: MIT, see file 'LICENSE'
  */
-import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {UiComponent} from "../../lib/cm-web-modules/app/Component.js"
-import {ENGINE_STATE} from "../../lib/cm-engine-runner/EngineRunner.js"
+import {Observe} from "cm-web-modules/src/observe/Observe.js"
+import {UiComponent} from "cm-web-modules/src/app/Component.js"
+import {ENGINE_STATE} from "cm-engine-runner/src/EngineRunner.js"
 
 export class StockfishStateView extends UiComponent {
 

@@ -4,13 +4,12 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {ChessConsolePlayer} from "../../lib/chess-console/ChessConsolePlayer.js"
-import {Observe} from "../../lib/cm-web-modules/observe/Observe.js"
-import {CONSOLE_MESSAGE_TOPICS} from "../../lib/chess-console/ChessConsole.js"
-import {PolyglotRunner} from "../../lib/cm-engine-runner/PolyglotRunner.js"
-import {ENGINE_STATE} from "../../lib/cm-engine-runner/EngineRunner.js"
-import {StockfishRunner} from "../../lib/cm-engine-runner/StockfishRunner.js"
-// import {COLOR} from "../../lib/cm-chess/Chess.js"
+import {ChessConsolePlayer} from "chess-console/src/ChessConsolePlayer.js"
+import {Observe} from "cm-web-modules/src/observe/Observe.js"
+import {CONSOLE_MESSAGE_TOPICS} from "chess-console/src/ChessConsole.js"
+import {PolyglotRunner} from "cm-engine-runner/src/PolyglotRunner.js"
+import {ENGINE_STATE} from "cm-engine-runner/src/EngineRunner.js"
+import {StockfishRunner} from "cm-engine-runner/src/StockfishRunner.js"
 
 export class StockfishPlayer extends ChessConsolePlayer {
 

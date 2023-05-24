@@ -4,8 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {COLOR} from "../../lib/cm-chess/Chess.js"
-import {LEVELS} from "../../lib/cm-engine-runner/StockfishRunner.js"
+import {LEVELS} from "cm-engine-runner/src/StockfishRunner.js"
 
 export class StockfishNewGameDialog {
 

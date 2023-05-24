@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {GameControl} from "../../lib/chess-console/components/GameControl/GameControl.js"
+import {GameControl} from "chess-console/src/components/GameControl/GameControl.js"
 import {StockfishNewGameDialog} from "./StockfishNewGameDialog.js"
 
 export class StockfishGameControl extends GameControl {
