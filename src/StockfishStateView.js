@@ -26,10 +26,8 @@ export class StockfishStateView extends UiComponent {
             minimumFractionDigits: 1,
             maximumFractionDigits: 1
         })
-        this.element = document.createElement("div")
-        this.element.setAttribute("class", "engine-state")
-        this.chessConsole.componentContainers.right.append(this.element)
-        this.element.innerHTML = `<div><span class="score text-muted"></span> <span class="thinking text-muted"><i class="fas fa-${this.props.spinnerIcon} fa-spin"></i></span></div>`
+        this.element = this.chessConsole.context.querySelector(".engine-state")
+        this.element.innerHTML = `<span class="score text-muted"></span> <span class="thinking text-muted"><i class="fas fa-${this.props.spinnerIcon} fa-spin"></i></span>`
         this.scoreElement = this.element.querySelector(".score")
         this.thinkingElement = this.element.querySelector(".thinking")
         this.thinkingElement.style.display = 'none'
