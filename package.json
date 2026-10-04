@@ -1,6 +1,6 @@
 {
   "name": "chess-console-stockfish",
-  "version": "6.4.1",
+  "version": "6.5.0",
   "description": "StockfishPlayer for ChessConsole",
   "type": "module",
   "main": "src/chess-console-stockfish/StockfishPlayer.js",
@@ -26,8 +26,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "bootstrap": "^5.3.8",
-    "chess-console": "^6.13.3",
-    "cm-engine-runner": "^2.0.1",
-    "cm-web-modules": "^2.6.0"
+    "chess-console": "^7.0.0",
+    "cm-chess": "^4.0.1",
+    "cm-engine-runner": "^2.2.1",
+    "cm-web-modules": "^2.8.2"
   }
 }
