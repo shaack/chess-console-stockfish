@@ -14,3 +14,7 @@ engine.
 Download the source from [GitHub](https://github.com/shaack/chess-console-stockfish) and run `npm install`. This will
 install the dependencies and the `index.html` should show a [chess-console](https://github.com/shaack/chess-console)
 which integrates this player.
+
+The engine itself is not a dependency of this package. Install the build you want next to it, for example `npm install stockfish`, and pass the path of its worker file as `worker` prop (see `index.html`, which uses `stockfish-19-lite-single.js`). The opening book comes from [cm-engine-runner](https://github.com/shaack/cm-engine-runner).
+
+Chess960 is supported since 7.1.0: for a game variant `chess960` the player sets the engine option `UCI_Chess960` and skips the opening book.

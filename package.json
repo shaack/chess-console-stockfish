@@ -1,6 +1,6 @@
 {
   "name": "chess-console-stockfish",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "StockfishPlayer for ChessConsole",
   "type": "module",
   "main": "src/chess-console-stockfish/StockfishPlayer.js",
@@ -23,12 +23,15 @@
     "url": "https://github.com/shaack/chess-console-stockfish/issues"
   },
   "homepage": "https://github.com/shaack/chess-console-stockfish#readme",
+  "devDependencies": {
+    "stockfish": "^19.0.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "bootstrap": "^5.3.8",
     "chess-console": "^7.0.0",
     "cm-chess": "^4.0.1",
-    "cm-engine-runner": "^2.2.1",
+    "cm-engine-runner": "^3.0.0",
     "cm-web-modules": "^2.8.2"
   }
 }

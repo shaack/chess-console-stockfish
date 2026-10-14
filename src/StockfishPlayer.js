@@ -10,6 +10,7 @@ import {CONSOLE_MESSAGE_TOPICS} from "chess-console/src/ChessConsole.js"
 import {PolyglotRunner} from "cm-engine-runner/src/PolyglotRunner.js"
 import {ENGINE_STATE} from "cm-engine-runner/src/EngineRunner.js"
 import {StockfishRunner} from "cm-engine-runner/src/StockfishRunner.js"
+import {GAME_VARIANT} from "cm-chess/src/Chess.js"
 
 export class StockfishPlayer extends ChessConsolePlayer {
 
@@ -84,12 +85,16 @@ export class StockfishPlayer extends ChessConsolePlayer {
         if (this.props.debug) {
             console.log("moveRequest", fen)
         }
+        // Chess960 needs the engine option UCI_Chess960 (otherwise the engine
+        // calculates with wrong castling rules) and must skip the opening book,
+        // the Polyglot book only knows the standard starting position
+        const chess960 = this.chessConsole.state.chess.props.gameVariant === GAME_VARIANT.chess960
         this.initialisation.then(async () => {
             this.state.engineState = ENGINE_STATE.THINKING
-            if(this.state.level < 3) {
+            if(this.state.level < 3 || chess960) {
                 this.state.currentRunner = this.engineRunner // No book for Level 1 and 2
             }
-            let nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level })
+            let nextMove = await this.state.currentRunner.calculateMove(fen, {level: this.state.level, chess960: chess960})
             if (!nextMove) {
                 if (this.props.debug) {
                     console.log("no move found with", this.state.currentRunner.constructor.name)
