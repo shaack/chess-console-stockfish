@@ -24,14 +24,14 @@
   },
   "homepage": "https://github.com/shaack/chess-console-stockfish#readme",
   "devDependencies": {
-    "stockfish": "^19.0.0"
+    "stockfish": "^19.0.1"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.2.0",
-    "bootstrap": "^5.3.8",
-    "chess-console": "^7.0.0",
-    "cm-chess": "^4.0.1",
-    "cm-engine-runner": "^3.0.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "bootstrap": "^5.3.9",
+    "chess-console": "^7.2.3",
+    "cm-chess": "^4.0.2",
+    "cm-engine-runner": "^3.0.1",
     "cm-web-modules": "^2.8.2"
   }
 }
